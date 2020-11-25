@@ -7,6 +7,8 @@ export const initialState = {
   commentAdded: false,
   singleShop: null,
   hasMoreShop: false,
+  loadingGetShop:false,
+  loadingGetError:''
 };
 export type IShopReducerState = typeof initialState;
 
@@ -22,12 +24,15 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
     }
     case LOAD_MAIN_SHOPS_SUCCESS: {
-      //draft.mainShops = draft.mainShops.concat(action.data);
-      draft.mainShops = action.data;
+      action.data.forEach((d) => {
+        draft.mainShops.push(d);
+      });
       draft.hasMoreShop = action.data.length === 6;
       break;
     }
     case LOAD_MAIN_SHOPS_FAILURE: {
+      draft.loadingGetShop=false;
+      draft.loadingGetError=action.error;
       break;
     }
     default: {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
 import axios from 'axios';
@@ -15,17 +15,24 @@ const Home = () => {
     const dispatch = useDispatch();
     const { me } = useSelector((state) => state.user);
     const { mainShops, hasMoreShop } = useSelector((state) => state.shop);
+    const countRef = useRef([]);
 
-    useEffect(() => {
-        function onScroll() {
-            if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
-                if (hasMoreShop) {
-                    // dispatch({
-                    //   type: LOAD_MAIN_SHOPS_REQUEST,
-                    // });
-                }
+
+   const onScroll=useCallback(()=> {
+        if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 100) {
+            if (hasMoreShop) {
+                const lastId = mainShops[mainShops.length - 1]?.id;
+                dispatch({
+                    type: LOAD_MAIN_SHOPS_REQUEST,
+                    lastId
+                });
+                countRef.current.push(lastId);
             }
         }
+    },[hasMoreShop,mainShops.length])
+
+    useEffect(() => {
+
         window.addEventListener('scroll', onScroll);
         return () => {
             window.removeEventListener('scroll', onScroll);

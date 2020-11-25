@@ -14,12 +14,8 @@ router.get('/', async (req, res, next) => { // GET /shops
       where,
       limit: 6,
       order: [
-        ['createdAt', 'DESC'],
-      ],
-      include: [{
-        model: User,
-        attributes: ['id', 'nick'],
-      }]
+        ['id', 'DESC'],
+      ]
     });
     res.status(200).json(shops);
   } catch (error) {

@@ -8,7 +8,6 @@ import {LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST} from '../reducers/shop';
 import { LOAD_USER_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import MainShops from "../components/mainShops";
-import MakeTheData from "../components/makeThe";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -54,11 +53,6 @@ const Home = () => {
                             </>
                         ))}
                     </ul>
-                    <div>
-                        <p className="dummy-youwant">DB 데이터는 끝이에요 😅 <br/>
-                        Dummy data로 스크롤링을 <br/>더 보고싶으시다면 상단의 DataFactory를 눌러주세요
-                        </p>
-                    </div>
                 </>
             )}
             {factory&&<MakeTheData />}

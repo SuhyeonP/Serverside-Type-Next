@@ -10,7 +10,6 @@ const PickMenu = ({ master }) => {
   const [userPriceBag, setPrice] = useState<number[]>([]);
   const { menus, menuPart } = useSelector((state) => state.shop);
 
-
   const EmptyBasket = useCallback(() => {
     document.getElementById('userBag').innerHTML = null;
     setBag([]);
@@ -23,7 +22,10 @@ const PickMenu = ({ master }) => {
       alert('아무것도 선택하지 않으셨습니다.');
       return;
     }
-    const menu = userMenuBag.join(',');
+    let menu = userMenuBag.join(',');
+    if (menu.length > 13) {
+      menu = `${menu.slice(0, 12)},,,`;
+    }
     const money: number = userPriceBag.reduce((sum, value) => sum + value);
     console.log(`${menu},${money}원 입니다.`);
     const lastCheck = confirm(`${menu},${money}원 입니다.`);
@@ -42,17 +44,29 @@ const PickMenu = ({ master }) => {
 
   return (
     <>
-      <div id="userBag" className="userBag" />
-      {basket && <button type="button" onClick={EmptyBasket}>비우기</button>}
-      {!master && <p onClick={gotoOrder}>주문하기</p>}
-      {menus.map((x) => (
-        menuPart.map((ele) => {
-          if (ele === x.MenuPart.partName) {
-            return <MenuT master={master} setBasket={setBasket} setPrice={setPrice} setBag={setBag} menu={x} part={ele} userMenuBag={userMenuBag} userPriceBag={userPriceBag} />;
-          }
-          return null;
-        })
-      ))}
+      {!master && <button type="button" className="order-togo" onClick={gotoOrder}>주문하기</button>}
+      <div className="userBag">
+        <div id="userBag">
+
+        </div>
+        {basket && <p className="empty-mybag" onClick={EmptyBasket}>비우기</p>}
+      </div>
+      <table>
+        <tr>
+          <td>Menu</td>
+          <td>Price</td>
+          <td>Part</td>
+          <td>GoGo</td>
+        </tr>
+        {menus.map((x) => (
+          menuPart.map((ele) => {
+            if (ele === x.MenuPart.partName) {
+              return <MenuT master={master} setBasket={setBasket} setPrice={setPrice} setBag={setBag} menu={x} part={ele} userMenuBag={userMenuBag} userPriceBag={userPriceBag} />;
+            }
+            return null;
+          })
+        ))}
+      </table>
     </>
   );
 };

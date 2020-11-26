@@ -4,7 +4,7 @@ import * as React from 'react';
 import { ReactElement, useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { HomeOutlined } from '@ant-design/icons';
-import {headerList, user, shop, attend, mainSection, logout, gotoHome, makeFactory} from '../css/layout';
+import { headerList, user, shop, attend, mainSection, logout, gotoHome, makeFactory } from '../css/layout';
 import { LOG_IN_REQUEST, LOG_IN_SHOP_REQUEST, LOG_OUT_REQUEST } from '../reducers/user';
 import LogOut from './logout';
 // todo 더미 로그인 하면, 로그아웃버튼 보이게
@@ -29,11 +29,13 @@ const AppLayout:React.FunctionComponent<Props> = ({ children }) => {
   return (
     <>
       {me ? <LogOut /> : (
-        <ul css={headerList}>
-          {user.map((ele) => <li onClick={() => LoginDummy(ele)}>{ele}</li>)}
-          <br />
-          {shop.map((element, ind) => <li onClick={() => LoginShopDummy(element, ind + 3)} className="shop">{element}</li>)}
-        </ul>
+        <>
+          <ul css={headerList}>
+            {user.map((ele) => <li onClick={() => LoginDummy(ele)}>{ele}</li>)}
+            <br />
+            {shop.map((element, ind) => <li onClick={() => LoginShopDummy(element, ind + 3)} className="shop">{element}</li>)}
+          </ul>
+        </>
       )}
       <Link href="/">
         <a css={gotoHome}>

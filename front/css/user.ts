@@ -16,7 +16,7 @@ const signup = css`
         margin:2vh auto;
         display:block;
     }
-    @media (min-width: 1024px){
+   @media (min-width:678px){
         div{
             padding:2vh 27vw;
         }
@@ -25,7 +25,6 @@ const signup = css`
         }
         
     }
-    @media (max-width: 1023px) and (min-width:678px){}
     @media (max-width:677px){
         div{
         
@@ -44,10 +43,9 @@ const userOrShop = css`
     &:hover{
         color:green;
     }
-    @media (max-width: 1024px){
+    @media (min-width:678px){
         width:30vh;
     }
-    @media (max-width: 1023px) and (min-width:678px){}
     @media (max-width: 677px){
         width:60vw;
         border:1px solid grey;

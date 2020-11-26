@@ -26,27 +26,29 @@ const MenuT = ({ master, menu, part, setBag, setPrice, setBasket, userMenuBag, u
   }, []);
   return (
     <>
-      <div className="paging-menu">
-        <p>{menu.menuName}</p>
-        <p>{menu.price}</p>
-        <p>{part}</p>
+      <>
+        <tr>
+          <td>{menu.menuName}</td>
+          <td>{menu.price}</td>
+          <td>{part}</td>
         {master
           ? (
-            <>
+            <td>
               <p>
                 <DeleteOutlined onClick={() => deleteMenu(part, menu.price)} />
                 <EditOutlined onClick={() => changeMenu(part, menu.price)} />
               </p>
-            </>
+            </td>
           )
           : (
-            <>
+            <td>
               <p>
-                <CheckSquareOutlined onClick={() => pushMyBag(part, menu.price)} />
+                <CheckSquareOutlined onClick={() => pushMyBag(menu.menuName, menu.price)} />
               </p>
-            </>
+            </td>
           )}
-      </div>
+        </tr>
+      </>
     </>
   );
 };

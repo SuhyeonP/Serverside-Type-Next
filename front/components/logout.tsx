@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import * as React from 'react';
-import { logout } from '../css/layout';
+import { BellOutlined, BellTwoTone } from '@ant-design/icons';
+import {alerm, headerList, logout, shop, user} from '../css/layout';
 import { LOG_OUT_REQUEST } from '../reducers/user';
 
 const LogOut = () => {
@@ -12,6 +13,7 @@ const LogOut = () => {
   return (
     <>
       <p css={logout} id="admin-logout" onClick={logOut}>Log out</p>
+      {me.shopMaster === 0 ? <BellTwoTone css={alerm} /> : <BellOutlined css={alerm} />}
     </>
   );
 };

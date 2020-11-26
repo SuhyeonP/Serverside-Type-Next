@@ -17,9 +17,6 @@ const Home = () => {
 
     const [factory,setFactory]=useState(false);
 
-    const RealMaking=useCallback(()=>{
-        setFactory(true)
-    },[])
 
    const onScroll=useCallback(()=> {
         if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 100) {
@@ -55,7 +52,6 @@ const Home = () => {
                     </ul>
                 </>
             )}
-            {factory&&<MakeTheData />}
             {!me&&<p>로그인 이후 이용이 가능합니다.</p>}
         </>
     );

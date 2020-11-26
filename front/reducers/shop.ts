@@ -1,4 +1,5 @@
 import produce from 'immer';
+import { menuPart } from '../pages/shop/[shopId]';
 
 export const initialState = {
   mainShops: [], // 화면에 보일 가게
@@ -7,8 +8,10 @@ export const initialState = {
   commentAdded: false,
   single1Shop: null,
   hasMoreShop: false,
-  loadingGetShop:false,
-  loadingGetError:'',
+  loadingGetShop: false,
+  loadingGetError: '',
+  menus: [],
+  menuPart: [],
 };
 export type IShopReducerState = typeof initialState;
 
@@ -45,13 +48,15 @@ export default (state = initialState, action) => produce(state, (draft) => {
     }
     case LOAD_SHOP_SUCCESS: {
       draft.loadingGetShop = false;
-      draft.single1Shop = action.data;
+      draft.single1Shop = action.data.shop;
+      draft.menus = action.data.shop.Menus;
+      draft.menuPart = action.data.part;
       break;
     }
     case LOAD_SHOP_FAILURE:
     case LOAD_MAIN_SHOPS_FAILURE: {
-      draft.loadingGetShop=false;
-      draft.loadingGetError=action.error;
+      draft.loadingGetShop = false;
+      draft.loadingGetError = action.error;
       break;
     }
     default: {

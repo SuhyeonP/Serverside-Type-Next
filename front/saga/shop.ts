@@ -5,10 +5,13 @@ import {
   LOAD_MAIN_SHOPS_REQUEST,
   LOAD_MAIN_SHOPS_SUCCESS,
   LOAD_MAIN_SHOPS_FAILURE,
+  LOAD_SHOP_REQUEST,
+  LOAD_SHOP_SUCCESS,
+  LOAD_SHOP_FAILURE,
 } from '../reducers/shop';
 
 function loadShopsAPI(lastId) {
-  return axios.get(`/shop?lastId=${lastId || 0}`);
+  return axios.get(`/shops?lastId=${lastId || 0}`);
 }
 
 function* loadShops(action) {
@@ -30,8 +33,34 @@ function* loadShops(action) {
 function* watchLoadShops() {
   yield throttle(2000, LOAD_MAIN_SHOPS_REQUEST, loadShops);
 }
+
+function loadShopAPI(shopId) {
+  console.log(shopId)
+  return axios.get(`/shop/${shopId}`);
+}
+
+function* loadShop(action) {
+  try {
+    const result = yield call(loadShopAPI, action.data);
+    yield put({
+      type: LOAD_SHOP_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_SHOP_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function* watchLoadShop() {
+  yield takeLatest( LOAD_SHOP_REQUEST, loadShop);
+}
 export default function* postSaga() {
   yield all([
     fork(watchLoadShops),
+    fork(watchLoadShop),
   ]);
 }

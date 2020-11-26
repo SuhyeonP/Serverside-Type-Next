@@ -12,11 +12,11 @@ function SUhyeon({ Component }) {
   );
 }
 export const getServerSideProps:GetServerSideProps = async () => {
-  // Fetch data from external API
   const res = await fetch(backUrl);
   const data = await res.json();
+  console.log("===================================")
+  console.log(data)
 
-  // 객체형태로 전달
   return { props: { data } };
 };
 

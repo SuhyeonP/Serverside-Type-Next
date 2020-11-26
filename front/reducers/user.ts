@@ -8,6 +8,7 @@ export const initialState = {
   isSigningUp: false,
   signUpError: '',
   me: null,
+  shopIsMe:null,
 };
 export type IUserReducerState = typeof initialState;
 
@@ -43,7 +44,13 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.loginError = '';
       break;
     }
-    case LOG_IN_SHOP_SUCCESS:
+    case LOG_IN_SHOP_SUCCESS: {
+      draft.isLoggingIn = false;
+      draft.loginError = '';
+      draft.shopIsMe = action.data.shopIsMe;
+      draft.me = action.data.me;
+      break;
+    }
     case LOG_IN_SUCCESS: {
       draft.isLoggingIn = false;
       draft.loginError = '';
@@ -93,7 +100,12 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
     }
     case LOAD_USER_SUCCESS: {
-      draft.me = action.data;
+      if(action.data.shopIsMe){
+        draft.shopIsMe=action.data.shopIsMe;
+        draft.me=action.data.me;
+      }else{
+        draft.me=action.data.me;
+      }
       break;
     }
     case LOAD_USER_FAILURE: {

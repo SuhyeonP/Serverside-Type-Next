@@ -1,16 +1,16 @@
 module.exports=(sequelize,DataTypes)=>{
-  const User=sequelize.define('User',{
-    userId:{
-      type:DataTypes.STRING(45),
-      allowNull:false
+  const User=sequelize.define('User', {
+    userId: {
+      type: DataTypes.STRING(45),
+      allowNull: false
     },
-    password:{
-      type:DataTypes.STRING(100),
-      allowNull:false
+    password: {
+      type: DataTypes.STRING(100),
+      allowNull: false
     },
-    nick:{
-      type:DataTypes.STRING(10),
-      allowNull:false
+    nick: {
+      type: DataTypes.STRING(10),
+      allowNull: false
     }
   },{
     charset: 'utf8mb4',

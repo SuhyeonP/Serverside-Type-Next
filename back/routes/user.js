@@ -12,14 +12,20 @@ router.get('/', async (req, res, next) => { // GET /user
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
         where: { id: req.user.id },
-        attributes: {
-          exclude: ['password']
-        },
+        attributes: ['id','userId','nick','shopMaster'],
       })
-      console.log('not null')
-      return res.status(200).json(fullUserWithoutPassword);
+      let userReLoad= {};
+      if(fullUserWithoutPassword.dataValues.shopMaster===1){
+        const shopFind=fullUserWithoutPassword.dataValues.id
+        const theShop=await Shop.findOne({
+          where:{master:shopFind},
+          attributes:['id','shopName','master','part']
+        })
+        userReLoad={me:fullUserWithoutPassword,shopIsMe:theShop}
+        return res.status(200).json(userReLoad);
+      }
+      return res.status(200).json({me:fullUserWithoutPassword});
     } else {
-      console.log('null')
       res.status(200).json(null);
     }
   } catch (error) {
@@ -44,9 +50,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
       }
       const fullUserWithoutPassword = await User.findOne({
         where: { id: user.id },
-        attributes: {
-          exclude: ['password']
-        },
+        attributes: ['id','userId','nick','shopMaster'],
       })
       return res.status(200).json(fullUserWithoutPassword);
     });
@@ -68,18 +72,14 @@ router.post('/slogin', (req, res, next) => {
         console.error(loginErr)
         return next(loginErr)
       }
-      const client=await User.findOne({
+      const client=await Shop.findOne({
+        where:{master:user.id}
+      })
+      const userInfo=await User.findOne({
         where:{id:user.id},
-        attributes:{
-          exclude:['password']
-        }
+        attributes:['nick','id','userId','shopMaster']
       })
-      const shop=await Shop.findOne({
-        where:{master:user.id},
-        attributes:['id','master','shopName','address','part']
-      })
-      const LastInfo=Array(client).concat(Array(shop))
-      return res.status(200).json(LastInfo);
+      return res.status(200).json({shopIsMe:client,me:userInfo});
     })
   })(req,res,next)
 });
@@ -99,11 +99,14 @@ router.post('/shop', isLoggedIn, async (req, res, next) => { // POST /user/
       master:req.body.master,
       shopName:req.body.shopName
     })
+    await User.update({
+      shopMaster:1,where:{id:shop.id},
+    })
     const complete=await Shop.findOne({
       where:{id:shop.id},
       include:[{
         model:User,
-        attributes:['id','nick']
+        attributes:['id','nick'.shopMaster]
       }]
     })
     res.status(201).json(complete)
@@ -128,6 +131,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
       userId: req.body.userId,
       nick: req.body.nick,
       password: hashedPassword,
+      shopMaster:0,
     });
     res.status(201).send('ok');
   } catch (error) {

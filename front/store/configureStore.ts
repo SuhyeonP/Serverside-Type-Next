@@ -13,13 +13,13 @@ const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => {
   return next(action);
 };
 
-const configureStore = (initialState) => {
+const configureStore = () => {
   const sagaMiddleware = createSagaMiddleware();
   const middlewares = [sagaMiddleware, loggerMiddleware];
   const enhancer = process.env.NODE_ENV === 'production'
     ? compose(applyMiddleware(...middlewares))
     : composeWithDevTools(applyMiddleware(...middlewares));
-  const store: IStore = createStore(reducer, initialState, enhancer);
+  const store: IStore = createStore(reducer, enhancer);
   store.sagaTask = sagaMiddleware.run(rootSaga);
   return store;
 };
@@ -27,4 +27,5 @@ const configureStore = (initialState) => {
 const wrapper = createWrapper(configureStore, {
   debug: process.env.NODE_ENV === 'development',
 });
+
 export default wrapper;

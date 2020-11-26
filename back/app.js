@@ -9,6 +9,7 @@ const passportConfig=require('./passport');
 
 
 const shopRouter=require('./routes/shop');
+const shopsRouter=require('./routes/shops');
 const userRouter=require('./routes/user');
 const db = require('./models');
 const app=express();
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
 
 app.use('/user',userRouter);
 app.use('/shop',shopRouter);
+app.use('/shops',shopsRouter);
 
 app.listen(3050, () => {
   console.log('서버 실행 중!');

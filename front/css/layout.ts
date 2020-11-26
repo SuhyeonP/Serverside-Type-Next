@@ -4,7 +4,7 @@ const post = ['pink', 'yellow', 'mint', 'brown'];
 const headerList = css`
     display:block;
     width:80vw;
-    margin:0 auto;
+    margin:20px auto;
     padding:2vh 0;
     list-style:none;
     text-align:center;
@@ -80,12 +80,25 @@ const mainSection = css`
             transform:scale(1.3)
         }
       }
+      .dummy-youwant{
+        display:block;
+        text-align:center;
+      }
+      .dummyButton{
+        display:flex;
+        justify-content:center;
+        button{
+        display:inline-block;
+        margin: 0 15px;
+        text-align:center;
+        }
+      }
       @media (min-width: 1024px){
         th{
             width:12vh;
           }  
         .home-list{
-            margin:2vh;
+            margin:4vh 2vh;
             box-shadow: 2px 3px 8px #44444459;
             padding-top:17px;
             padding-bottom:0;
@@ -120,7 +133,12 @@ const mainSection = css`
         .home-table{
             margin:1vh;
         }
-        
+      }
+      @media (min-height:800px) and (max-height:850px){
+        .home-list{
+        width:30vh;
+        height:30vh;
+        }
       }
 `;
 const shopControl = css`
@@ -135,9 +153,11 @@ const shopControl = css`
         position:absolute;
         right:1vh;
         bottom:1vh;
+        
 `;
 const logout = css`
     display:block;
+    margin-top:3vh;
     text-align:center;
     cursor:pointer;
 `;
@@ -148,20 +168,74 @@ const gotoHome = css`
         font-size:0;
     }
     @media (min-width:1024px){
-        top:6vh;
+        top:4vh;
         left:19vw;
         font-size:40px;
         color:brown;
     }
     @media (max-width: 1023px) and (min-width:678px){}
     @media (max-width:677px){
-        top:6vh;
-        left:5vw;
+        top:3vh;
+        left:7vw;
         font-size:22px;
         color:brown;
     }
 `;
 
+const makeFactory=css`
+    position:absolute;
+    cursor:pointer;
+    .small-make{
+        font-size:12px;
+        margin:0;
+    }
+    @media (min-width:1024px){
+        top:4vh;
+        right:19vw;
+        font-size:40px;
+        color:brown;
+    }
+    @media (max-width: 1023px) and (min-width:678px){}
+    @media (max-width:677px){
+        top:3vh;
+        right:7vw;
+        font-size:22px;
+        color:brown;
+        .small-make{
+        margin-top:2px;
+        }
+    }
+`
+
+const dummyFactory=css`
+    .explain-making{
+        display:block;
+        text-align:center;
+    }
+    .ant-input-number{
+        display:inline-block;
+    }
+    .dummy-label{
+        padding:12px 0;
+        display:block;
+        text-align:center;
+    }
+    .ant-input-number-handler-wrap{
+        display:none;
+    }
+    @media (min-width: 1024px){
+    
+    }
+    @media (max-width: 1023px) and (min-width:678px){
+    
+    }
+    @media (max-width:677px){
+        .explain-making{
+            margin:0 -15px;
+        }
+    }
+`
+
 const user = ['user1', 'user2', 'user3'];
 const shop = ['shop1', 'shop2', 'shop3', 'shop4', 'shop5', 'shop6'];
-export { headerList, user, shop, attend, mainSection, shopControl, logout, gotoHome };
+export { makeFactory, headerList, user, shop, attend, mainSection, shopControl, logout, gotoHome, dummyFactory };

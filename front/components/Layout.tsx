@@ -41,11 +41,6 @@ const AppLayout:React.FunctionComponent<Props> = ({ children }) => {
           <p>home</p>
         </a>
       </Link>
-      <Link href="/">
-        <a css={makeFactory}>
-          <p className="small-make">Data Factory</p>
-        </a>
-      </Link>
       <h2 css={attend}>이용자들은 주문을 할수있고, 가게는 주문을 할수있어요!!</h2>
       <div css={mainSection}>
         {children}

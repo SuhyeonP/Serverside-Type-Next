@@ -33,7 +33,7 @@ const MainShops=({shopInfo})=>{
             </table>
             {me.shopMaster===1&&shopInfo.master===me.id?
                 <Link href={"/shop/"+shopInfo.id}>
-                    <a css={shopControl}></a>
+                    <a css={shopControl}>take care</a>
                 </Link>
                 :
                 <Link href={"/shop/"+shopInfo.id}>

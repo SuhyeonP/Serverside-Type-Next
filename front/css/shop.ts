@@ -1,15 +1,21 @@
-import {css} from '@emotion/react';
+import { css } from '@emotion/react';
 
 const singleShop = css`
-display:block;
+     display:block;
      h3{
         display:block;
         text-align:center;
         margin:0;
         padding:4px 0;
      }
-        text-align:center;
-       ul{
+     .paging-menu{
+        display:flex;
+        p{
+            padding:0 10px;
+        }
+     }
+    text-align:center;
+    ul{
         display:block;
         margin:0 auto;
         li{
@@ -74,7 +80,10 @@ display:block;
       table{
         width:100%;
        }
+       .onlyPC{
+        display:none;
+       }
     }
 `;
 
-export {singleShop};
+export { singleShop };

@@ -147,6 +147,7 @@ const shopControl = css`
         height:15px;
         background-color:inherit;
         border:0;
+        font-size:0;
         background-image: url(https://s.pstatic.net/static/www/img/uit/2020/sp_my_5fd9c4.png);
         background-size: 316px 278px;
         background-position: -280px -348px;
@@ -157,6 +158,7 @@ const shopControl = css`
 `;
 const logout = css`
     display:block;
+    z-index:1;
     margin-top:3vh;
     text-align:center;
     cursor:pointer;
@@ -164,6 +166,7 @@ const logout = css`
 const gotoHome = css`
     position:absolute;
     cursor:pointer;
+    z-index:4;
     p{
         font-size:0;
     }

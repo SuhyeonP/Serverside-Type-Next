@@ -16,7 +16,7 @@
 <img src="https://lakue119.github.io/img/skills/mysql.png" width="40px" height="40px"/>
 <img src="https://cdn.iconscout.com/icon/free/png-512/node-js-1174925.png" width="40px" height="40px"/>
 </div>
-
+when you fork my project `npm run dev`
 
 # 😁
 백엔드와 프론트엔드 풀스택으로 진행한 프로젝트입니다.

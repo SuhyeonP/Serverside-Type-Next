@@ -32,6 +32,7 @@ const Shop = () => {
     }
   }, [me]);
 
+
   const changeName = useCallback((part) => {
     const modiName = prompt('바꿀이름을 적어주세요');
     const checking: boolean = confirm(`${modiName}이 맞습니까?`);
@@ -57,25 +58,13 @@ const Shop = () => {
           &nbsp;
           {master && <ControlOutlined />}
         </h3>
-        <p>
-          {' '}
-          :
-          {single1Shop.address}
-        </p>
+        <p>{single1Shop.address}</p>
         <input hidden id="rmt-123" />
         <div>
-          <img src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150410_215%2Fhakdiary_1428652773295KSpdV_JPEG%2F%25B9%25AB%25C7%25D1%25B5%25B5%25C0%25FC_%25C2%25A9_%25C1%25A4%25C7%25F6%25B5%25B7_%252815%2529.jpg&type=sc960_832"
+          <img
+            src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150410_215%2Fhakdiary_1428652773295KSpdV_JPEG%2F%25B9%25AB%25C7%25D1%25B5%25B5%25C0%25FC_%25C2%25A9_%25C1%25A4%25C7%25F6%25B5%25B7_%252815%2529.jpg&type=sc960_832"
             id="img-shop"
           />
-          <ul>
-            {menuPart.map((x) => (
-              <li onClick={() => openTable(x)} key={x.id}>
-                {x}
-                &nbsp;
-                {master && <EditOutlined onClick={() => changeName(x)} />}
-              </li>
-            ))}
-          </ul>
           <PickMenu master={master} />
         </div>
       </div>

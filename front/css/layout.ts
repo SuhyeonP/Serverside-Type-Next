@@ -28,12 +28,17 @@ const attend = css`
     display:block;
     text-align:center;
     font-size:14px;
+    padding-top:12px;
 `;
 const mainSection = css`
       display:block;
       width:80vw;
       margin:2vh auto 4vh;
-      
+      .anticon-check-square{
+        &:hover{
+        color:#00bb41;
+        }
+      }
       ul{
         list-style:none;
         padding:0;
@@ -52,10 +57,6 @@ const mainSection = css`
       a{
         display:inline-block;
         text-decoration:none;
-      }
-      img{
-            width:90%;
-            margin-bottom:1vh;
       }
       .home-table{
         display:block;
@@ -93,7 +94,12 @@ const mainSection = css`
         text-align:center;
         }
       }
-      @media (min-width: 1024px){
+      @media (min-width:678px){
+   
+          img{
+            width:80%;
+            margin-bottom:1vh;
+          }
         th{
             width:12vh;
           }  
@@ -109,18 +115,14 @@ const mainSection = css`
         td{
             line-height:26px;
             font-size:19px;
+            padding:0 15px;
           }
-      }
-      @media (max-width: 1023px) and (min-width:678px){
-        td{
-            line-height:22px;
-          }
-          
-          th{
-            width:12vh;
-          }  
       }
       @media (max-width: 677px){
+      img{
+        width:90%;
+        margin-bottom:1vh;
+      }
         .home-list{
             margin:2vh 0;
         }
@@ -170,35 +172,33 @@ const gotoHome = css`
     p{
         font-size:0;
     }
-    @media (min-width:1024px){
+    @media (min-width:678px){
         top:4vh;
         left:19vw;
         font-size:40px;
         color:brown;
     }
-    @media (max-width: 1023px) and (min-width:678px){}
-    @media (max-width:677px){
-        top:3vh;
+    @media (max-width:677px){    
+        top: 15px;
         left:7vw;
         font-size:22px;
         color:brown;
     }
 `;
 
-const makeFactory=css`
+const makeFactory = css`
     position:absolute;
     cursor:pointer;
     .small-make{
         font-size:12px;
         margin:0;
     }
-    @media (min-width:1024px){
+    @media (min-width:678px){
         top:4vh;
         right:19vw;
         font-size:40px;
         color:brown;
     }
-    @media (max-width: 1023px) and (min-width:678px){}
     @media (max-width:677px){
         top:3vh;
         right:7vw;
@@ -208,9 +208,9 @@ const makeFactory=css`
         margin-top:2px;
         }
     }
-`
+`;
 
-const dummyFactory=css`
+const dummyFactory = css`
     .explain-making{
         display:block;
         text-align:center;
@@ -226,10 +226,7 @@ const dummyFactory=css`
     .ant-input-number-handler-wrap{
         display:none;
     }
-    @media (min-width: 1024px){
-    
-    }
-    @media (max-width: 1023px) and (min-width:678px){
+    @media (min-width:678px){
     
     }
     @media (max-width:677px){
@@ -237,8 +234,15 @@ const dummyFactory=css`
             margin:0 -15px;
         }
     }
-`
+`;
+
+const alerm = css`
+   svg{
+    width:22px;
+    height:22px;
+   }
+`;
 
 const user = ['user1', 'user2', 'user3'];
 const shop = ['shop1', 'shop2', 'shop3', 'shop4', 'shop5', 'shop6'];
-export { makeFactory, headerList, user, shop, attend, mainSection, shopControl, logout, gotoHome, dummyFactory };
+export { alerm, makeFactory, headerList, user, shop, attend, mainSection, shopControl, logout, gotoHome, dummyFactory };

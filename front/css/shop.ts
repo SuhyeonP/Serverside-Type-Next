@@ -32,15 +32,20 @@ const singleShop = css`
        .userBag{
         display:block;
         text-align:center;
-        border:1px solid green;
+        border:1px solid #1a2e9e;
+        background-color:#ececffc4;
         padding:2px;
-        margin:4px;
+        position:relative;
         p{
             display:inline-block;
             padding:0 5px;
         }
        }
-    @media (min-width: 1024px){
+       .empty-mybag{
+            margin-top:12px;
+            font-size:14px;
+        }
+    @media(min-width:678px){
         h3{
             font-size:32px;
         }
@@ -78,11 +83,19 @@ const singleShop = css`
         }
        }
       table{
+        margin-top:12px;
         width:100%;
        }
        .onlyPC{
         display:none;
        }
+       .userBag p{
+        margin:1px;
+        }
+        .order-togo{
+            margin:8px 0;
+        }
+        
     }
 `;
 

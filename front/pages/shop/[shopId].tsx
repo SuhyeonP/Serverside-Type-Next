@@ -1,20 +1,35 @@
 import React from 'react';
 import { useCallback, useEffect, useState } from 'react';
-import { CheckSquareOutlined, ControlOutlined, DeleteOutlined, EditOutlined, SettingOutlined } from '@ant-design/icons';
+import { ControlOutlined, EditOutlined } from '@ant-design/icons';
 import { singleShop } from '../../css/shop';
-import useInput from '../../exporthing/useInput';
+import wrapper from "../../store/configureStore";
+import {LOAD_USER_REQUEST} from "../../reducers/user";
+import {LOAD_SHOP_REQUEST} from "../../reducers/shop";
+import {END} from "@redux-saga/core";
+import axios from 'axios';
+import {useRouter} from "next/router";
+import {useSelector} from "react-redux";
+import {GetServerSideProps} from 'next';
+import PickMenu from "../../components/userPick";
 
-const menuPart = [{ part: 'main' }, { part: 'sub' }, { part: 'drink' }];// menu수정할수있게 todo
+export const menuPart = [{ part: 'main' }, { part: 'sub' }, { part: 'drink' }];// menu수정할수있게 todo
 
 const Shop = () => {
+  const router = useRouter();
+  const { shopId } = router.query;
+  const {single1Shop }=useSelector((state)=>state.shop);
+  const { me } = useSelector((state)=>state.user);
+
   const [master, setMaster] = useState(false);
   const [seeN, setSeeN] = useState('123');
-  const [userMenuBag, setBag] = useState<string[]>([]);
-  const [userPriceBag, setPrice] = useState<number[]>([]);
-  const [cp, onChangeCp] = useInput('');
-  const [menuName, onChangeName] = useInput('');
-  const [modifyMode, setModify] = useState(false);
-  const [basket, setBasket] = useState(false);
+
+
+
+  useEffect(()=>{
+    if(me.master&&me.master===shopId){
+      setMaster(true);
+    }
+  },[me])
 
   const changeName = useCallback((part) => {
     const modiName = prompt('바꿀이름을 적어주세요');
@@ -26,13 +41,7 @@ const Shop = () => {
       alert('취소되었습니다.');
     }
   }, []);
-  const changeMenu = useCallback((mn, mp) => {
-    setModify(true);
-    console.log(mn, mp, 'change');
-  }, []);
-  const deleteMenu = useCallback((mn, mp) => {
-    console.log(mn, mp, 'delete');
-  }, []);
+
 
   const openTable = useCallback((part) => {
     document.getElementById(`rmt-${seeN}`).style.display = 'none';
@@ -40,60 +49,17 @@ const Shop = () => {
     document.getElementById(`rmt-${part}`).style.display = 'block';
   }, [seeN]);
 
-  const pushMyBag = useCallback((mn:string, mp:number) => {
-    setBag((prev) => {
-      prev.push(mn);
-      const put = document.createElement('p');
-      put.textContent = mn;
-      document.getElementById('userBag').append(put);
-      return prev;
-    });
-    setPrice((prev) => {
-      prev.push(mp);
-      return prev;
-    });
-    setBasket(true);
-  }, [userMenuBag, userPriceBag]);
-  const gotoOrder = useCallback(() => {
-    if (userPriceBag.length === 0) {
-      alert('아무것도 선택하지 않으셨습니다.');
-      return;
-    }
-    const menu = userMenuBag.join(',');
-    const price:number = userPriceBag.reduce((sum, value) => sum + value);
-    console.log(`${menu},${price}원 입니다.`);
-    const lastCheck = confirm(`${menu},${price}원 입니다.`);
-    if (lastCheck) {
-      console.log('send to info');
-      setBag([]);
-      setPrice([]);
-    } else {
-      alert('취소되었습니다.');
-      setBag([]);
-      setPrice([]);
-      setBasket(false);
-      document.getElementById('userBag').innerHTML = null;
-    }
-  }, [userMenuBag, userPriceBag]);
 
-  const changeTheMenu = useCallback(() => {
-    console.log(`${menuName},${cp} right?`);
-    setModify(false);
-  }, [menuName, cp]);
 
-  const emptybaskcet = useCallback(() => {
-    document.getElementById('userBag').innerHTML = null;
-    setBag([]);
-    setPrice([]);
-    setBasket(false);
-  }, []);
 
   return (
     <>
       <div css={singleShop}>
         <h3>
-          shopName&nbsp;
+          {single1Shop.shopName}&nbsp;
           {master && <ControlOutlined />}
+          <br/>
+          :{single1Shop.address}
         </h3>
         <input hidden id="rmt-123" />
         <div>
@@ -107,120 +73,31 @@ const Shop = () => {
               </li>
             ))}
           </ul>
-          <div id="userBag" className="userBag" />
-          {basket && <button onClick={emptybaskcet}>비우기</button>}
-          {menuPart.map((ele) => {
-            const hi = ele.part;
-            return (
-              <>
-                <div className="part-table" id={`rmt-${hi}`}>
-                  <h4>
-                    {hi}
-                    {!master && <p onClick={gotoOrder}>주문하기</p>}
-                  </h4>
-                  {/* todo <div>img-slick예정</div> */}
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>name</th>
-                        <th>price</th>
-                        {master
-                          ? <th>수정</th>
-                          : <th>담기</th>}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        {modifyMode
-                          ? (
-                            <>
-                              <td><input value={menuName} onChange={onChangeName} /></td>
-                              <td><input value={cp} onChange={onChangeCp} type="number" /></td>
-                              <td onClick={changeTheMenu}>go</td>
-                            </>
-                          )
-                          : (
-                            <>
-                              <td>name</td>
-                              <td>price</td>
-                            </>
-                          )}
-                        {master
-                          ? (
-                            <td>
-                              <DeleteOutlined onClick={() => deleteMenu(ele.part, ele)} />
-                              <EditOutlined onClick={() => changeMenu(ele.part, ele)} />
-                            </td>
-                          )
-                          : <td><CheckSquareOutlined onClick={() => pushMyBag(ele.part.toString(), Number(ele.part.length))} /></td>}
-                      </tr>
-                      <tr>
-                        {modifyMode
-                          ? (
-                            <>
-                              <td><input value={menuName} onChange={onChangeName} /></td>
-                              <td><input value={cp} onChange={onChangeCp} type="number" /></td>
-                              <td onClick={changeTheMenu}>go</td>
-                            </>
-                          )
-                          : (
-                            <>
-                              <td>name</td>
-                              <td>price</td>
-                            </>
-                          )}
-                        {master
-                          ? (
-                            <td>
-                              <DeleteOutlined onClick={() => deleteMenu(ele.part, ele)} />
-                              <EditOutlined onClick={() => changeMenu(ele.part, ele)} />
-                            </td>
-                          )
-                          : <td><CheckSquareOutlined onClick={() => pushMyBag(ele.part.toString(), Number(ele.part.length))} /></td>}
-                      </tr>
-                      <tr>
-                        {modifyMode
-                          ? (
-                            <>
-                              <td><input value={menuName} onChange={onChangeName} /></td>
-                              <td><input value={cp} onChange={onChangeCp} type="number" /></td>
-                              <td onClick={changeTheMenu}>go</td>
-                            </>
-                          )
-                          : (
-                            <>
-                              <td>name</td>
-                              <td>price</td>
-                            </>
-                          )}
-                        {master
-                          ? (
-                            <td>
-                              <DeleteOutlined onClick={() => deleteMenu(ele.part, ele)} />
-                              <EditOutlined onClick={() => changeMenu(ele.part, ele)} />
-                            </td>
-                          )
-                          : <td><CheckSquareOutlined onClick={() => pushMyBag(ele.part.toString(), Number(ele.part.length))} /></td>}
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </>
-            );
-          })}
+          <PickMenu master={master}/>
         </div>
       </div>
     </>
   );
 };
-// todo table 페이징
+// todo menu table 페이징
+
+
+export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  console.log(context);
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({
+    type: LOAD_USER_REQUEST,
+  });
+  context.store.dispatch({
+    type: LOAD_SHOP_REQUEST,
+    data: context.params.shopId,
+  });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
+
 export default Shop;
-// {Array(dumy.menuList).map((ele) => (
-//     ele.map((x) => (
-//         <li onClick={() => openTable(x)} key={x}>
-//           {x}
-//           &nbsp;
-//           {master && <SettingOutlined onClick={() => changeName(x)} />}
-//         </li>
-//     ))
-// ))}

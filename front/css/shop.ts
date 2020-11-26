@@ -1,11 +1,12 @@
-import { css } from '@emotion/react';
+import {css} from '@emotion/react';
 
 const singleShop = css`
 display:block;
      h3{
-            display:block;
-            text-align:center;
-            margin:0;
+        display:block;
+        text-align:center;
+        margin:0;
+        padding:4px 0;
      }
         text-align:center;
        ul{
@@ -76,4 +77,4 @@ display:block;
     }
 `;
 
-export { singleShop };
+export {singleShop};

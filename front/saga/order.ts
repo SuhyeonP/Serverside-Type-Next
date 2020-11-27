@@ -1,4 +1,4 @@
-import {all, fork, takeLatest, put, throttle, call, takeEvery} from 'redux-saga/effects';
+import { all, fork, takeLatest, put, throttle, call, takeEvery } from 'redux-saga/effects';
 import axios from 'axios';
 
 import {
@@ -14,12 +14,12 @@ import {
 } from '../reducers/user';
 
 function shopGetOrderAPI(shopId) {
-  return axios.get(`/${shopId}`);
+  return axios.get(`/order/${shopId}`);
 }
 
 function* shopGetOrder(action) {
   try {
-    const result = yield call(shopGetOrderAPI, action.shopId);
+    const result = yield call(shopGetOrderAPI, action.data.shopId);
     yield put({
       type: GET_ORDER_SUCCESS,
       data: result.data,

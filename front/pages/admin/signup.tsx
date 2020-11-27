@@ -1,15 +1,11 @@
-import { jsx } from '@emotion/react';
 import * as React from 'react';
 import { useCallback, useState, useEffect } from 'react';
 import { Form } from 'antd';
 import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { END } from 'redux-saga';
 import useInput from '../../exporthing/useInput';
-import AppLayout from '../../components/Layout';
-import { signup, userOrShop } from '../../css/user';
-import { SIGN_UP_REQUEST, LOG_OUT_REQUEST, SIGN_UP_SHOP_REQUEST } from '../../reducers/user';
+import { signup } from '../../css/newLayout';
+import { SIGN_UP_REQUEST, SIGN_UP_SHOP_REQUEST } from '../../reducers/user';
 
 const Signup = () => {
   const [userId, onChangeId] = useInput('');
@@ -24,7 +20,7 @@ const Signup = () => {
 
   const dispatch = useDispatch();
 
-  const { isSignedUp, me, signUpError } = useSelector((state) => state.user);
+  const { isSignedUp, me, signUpError } = useSelector((state:any) => state.user);
 
   useEffect(() => {
     if (isSignedUp) {
@@ -85,7 +81,7 @@ const Signup = () => {
                 <input type="password" required name="pwc" value={pwCheck} onChange={onChangePwCheck} />
               </div>
               {pwError && <div className="pw-error">비밀번호가 일치하지 않습니다.</div>}
-              <button className="joinBtn">가입하기</button>
+              <button type="submit" className="joinBtn">가입하기</button>
             </Form>
           </div>
         )
@@ -101,7 +97,7 @@ const Signup = () => {
                 <label htmlFor="address">Address&nbsp;:&nbsp;</label>
                 <input required name="address" value={address} onChange={onChangeAd} />
               </div>
-              <button className="joinBtn" typeof="submit">가입하기</button>
+              <button className="joinBtn" type="submit">가입하기</button>
             </Form>
           </div>
         )}

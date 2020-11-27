@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => { // GET /shops
         } // 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
         const shops = await Shop.findAll({
             where,
-            limit:4 ,
+            limit:6 ,
             order: [
                 ['id', 'DESC'],
             ]

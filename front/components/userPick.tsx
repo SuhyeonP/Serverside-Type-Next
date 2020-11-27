@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import MenuT from './menuT';
 import { ORDER_USER_REQUEST } from '../reducers/user';
+import {SmileOutlined} from "@ant-design/icons";
 
 const PickMenu = ({ master, me }) => {
   const [basket, setBasket] = useState(false);
   const [userMenuBag, setBag] = useState<string[]>([]);
   const [userPriceBag, setPrice] = useState<number[]>([]);
-  const { menus, menuPart } = useSelector((state) => state.shop);
+  const { menus, menuPart } = useSelector((state:any) => state.shop);
   const router = useRouter();
   const { shopId } = router.query;
   const dispatch = useDispatch();
@@ -51,10 +52,10 @@ const PickMenu = ({ master, me }) => {
 
   return (
     <>
-      {!master && <button type="button" className="order-togo" onClick={gotoOrder}>주문하기</button>}
+      {!master && <button type="button" className="order-togo" onClick={gotoOrder}><SmileOutlined /><p>주문하기</p></button>}
       <div className="userBag">
         <div id="userBag" />
-        {basket && <p className="empty-mybag" onClick={EmptyBasket}>비우기</p>}
+        {basket && <div className="empty-mybag"><p onClick={EmptyBasket}>비우기</p></div>}
       </div>
       <table>
         <tr>

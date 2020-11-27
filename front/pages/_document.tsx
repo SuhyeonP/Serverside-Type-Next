@@ -1,9 +1,11 @@
 import React from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
+import { commonCss } from '../css/newLayout';
 
 export default class MyDocument extends Document {
-  static async getInitalProps(ctx) {
+  static async getInitalProps(ctx:DocumentContext) {
     const originalRenderPage = ctx.renderPage;
+
     try {
       ctx.renderPage = () => originalRenderPage({
         enhanceApp: (App) => (props) => (<App {...props} />),
@@ -19,15 +21,14 @@ export default class MyDocument extends Document {
       };
     } catch (error) {
       console.error(error);
-    } finally {
     }
   }
 
   render() {
     return (
       <Html>
-        <Head />
-        <body>
+        <Head/>
+        <body css={commonCss}>
           <Main />
           <NextScript />
         </body>

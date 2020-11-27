@@ -14,7 +14,6 @@ const AppLayout:React.FunctionComponent<Props> = ({ children }) => {
   const { me } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const LoginDummy = useCallback((userId) => {
-    console.log(userId);
     dispatch({ type: LOG_IN_REQUEST,
       data: { userId, password: 'test' },
     });

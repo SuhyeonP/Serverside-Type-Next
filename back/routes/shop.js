@@ -24,7 +24,6 @@ router.get('/:shopId', async (req, res, next) => {
     shop.Menus.map(x=>{
       hh.add(x.MenuPart.dataValues.partName)
     })
-    console.log({shop:shop,part:[...hh]})
     res.status(200).json({shop:shop,part:[...hh]});
   } catch (error) {
     console.error(error);

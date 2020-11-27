@@ -122,7 +122,6 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
         userId: req.body.userId,
       }
     });
-    console.log(exUser)
     if (exUser!==null) {
       return res.status(403).send('이미 사용 중인 아이디입니다.');
     }

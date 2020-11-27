@@ -28,7 +28,6 @@ const Shop = () => {
       if (single1Shop.master === me.id) {
         setMaster(true);
       }
-      console.log(menus, menuPart);
     }
   }, [me]);
 
@@ -80,7 +79,6 @@ const Shop = () => {
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
-  console.log(context);
   axios.defaults.headers.Cookie = '';
   if (context.req && cookie) {
     axios.defaults.headers.Cookie = cookie;

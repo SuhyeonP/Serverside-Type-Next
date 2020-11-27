@@ -5,8 +5,6 @@ const router = express.Router();
 
 router.post('/', async (req, res, next) => {
     try{
-        console.log('asdfasdfadsf')
-        console.log(req.body)
         const order=await Order.create({
             price:req.body.money,
             userOrder:req.body.userId,

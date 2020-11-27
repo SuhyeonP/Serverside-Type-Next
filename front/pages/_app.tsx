@@ -14,8 +14,6 @@ function SUhyeon({ Component }) {
 export const getServerSideProps:GetServerSideProps = async () => {
   const res = await fetch(backUrl);
   const data = await res.json();
-  console.log("===================================")
-  console.log(data)
 
   return { props: { data } };
 };

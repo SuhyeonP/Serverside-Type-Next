@@ -35,7 +35,6 @@ function* watchLoadShops() {
 }
 
 function loadShopAPI(shopId) {
-  console.log(shopId)
   return axios.get(`/shop/${shopId}`);
 }
 
@@ -56,7 +55,7 @@ function* loadShop(action) {
 }
 
 function* watchLoadShop() {
-  yield takeLatest( LOAD_SHOP_REQUEST, loadShop);
+  yield takeLatest(LOAD_SHOP_REQUEST, loadShop);
 }
 export default function* postSaga() {
   yield all([

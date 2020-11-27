@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-
 import { ControlOutlined, EditOutlined } from '@ant-design/icons';
 import { END } from '@redux-saga/core';
 import axios from 'axios';
@@ -18,9 +17,9 @@ const Shop = () => {
   const { single1Shop, menus, menuPart } = useSelector((state) => state.shop);
   const { me, testData } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
   const [master, setMaster] = useState(false);
   const [seeN, setSeeN] = useState('123');
+  const router = useRouter();
 
   useEffect(() => {
     setLoading(true);

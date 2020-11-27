@@ -1,9 +1,10 @@
 import React from 'react';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, {Html, Head, Main, NextScript, DocumentContext} from 'next/document';
 
 export default class MyDocument extends Document {
-  static async getInitalProps(ctx) {
+  static async getInitalProps(ctx:DocumentContext) {
     const originalRenderPage = ctx.renderPage;
+
     try {
       ctx.renderPage = () => originalRenderPage({
         enhanceApp: (App) => (props) => (<App {...props} />),

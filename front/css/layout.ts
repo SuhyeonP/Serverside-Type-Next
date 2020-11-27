@@ -241,14 +241,17 @@ const alerm = css`
     width:22px;
     height:22px;
    }
-   .shop-orderIn{
-    color:yellow;
+   color:yello;
+`;
+
+const Nalerm = css`
+   svg{
+    width:22px;
+    height:22px;
    }
-   .shop-notOrder{
-    color:grey;
-   }
+   color:grey;
 `;
 
 const user = ['user1', 'user2', 'user3'];
 const shop = ['shop1', 'shop2', 'shop3', 'shop4', 'shop5', 'shop6'];
-export { alerm, makeFactory, headerList, user, shop, attend, mainSection, shopControl, logout, gotoHome, dummyFactory };
+export { alerm, Nalerm, makeFactory, headerList, user, shop, attend, mainSection, shopControl, logout, gotoHome, dummyFactory };

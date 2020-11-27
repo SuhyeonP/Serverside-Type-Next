@@ -15,7 +15,6 @@ const Home = () => {
   const { mainShops, hasMoreShop } = useSelector((state) => state.shop);
   const countRef = useRef([]);
 
-
   const onScroll = useCallback(() => {
     if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 100) {
       if (hasMoreShop) {
@@ -72,5 +71,6 @@ export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
+
 
 export default Home;

@@ -71,6 +71,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case GET_ORDER_SUCCESS: {
       draft.getOrdering = false;
       draft.getOrdered = true;
+      draft.getOrder = action.data;
       break;
     }
     case GET_ORDER_FAILURE: {

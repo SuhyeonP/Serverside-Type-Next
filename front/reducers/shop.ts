@@ -41,7 +41,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
       action.data.forEach((d) => {
         draft.mainShops.push(d);
       });
-      draft.hasMoreShop = action.data.length === 4;
+      draft.hasMoreShop = action.data.length === 6;
       break;
     }
     case LOAD_SHOP_REQUEST: {

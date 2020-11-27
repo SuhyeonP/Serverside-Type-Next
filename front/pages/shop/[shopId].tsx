@@ -8,8 +8,8 @@ import { GetServerSideProps } from 'next';
 import { LOAD_SHOP_REQUEST } from '../../reducers/shop';
 import { LOAD_USER_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
-import { singleShop } from '../../css/shop';
 import PickMenu from '../../components/userPick';
+import { singleShopCss } from '../../css/singleShop';
 
 export const menuPart1 = [{ part: 'main' }, { part: 'sub' }, { part: 'drink' }];// menu수정할수있게 todo
 
@@ -56,21 +56,21 @@ const Shop = () => {
 
   return (
     <>
-      <div css={singleShop}>
+      <div css={singleShopCss}>
         <h3>
           {single1Shop.shopName}
           &nbsp;
           {master && <ControlOutlined />}
         </h3>
-        <p>{single1Shop.address}</p>
+        <p className="address">{single1Shop.address}</p>
         <input hidden id="rmt-123" />
-        <div>
+        <div className="shop-image">
           <img
-            src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150410_215%2Fhakdiary_1428652773295KSpdV_JPEG%2F%25B9%25AB%25C7%25D1%25B5%25B5%25C0%25FC_%25C2%25A9_%25C1%25A4%25C7%25F6%25B5%25B7_%252815%2529.jpg&type=sc960_832"
+            src="https://m.upinews.kr/data/upi/image/20190920/p1065572263048679_345_thum.jpg"
             id="img-shop"
           />
-          <PickMenu master={master} me={me} />
         </div>
+        <PickMenu master={master} me={me} />
       </div>
     </>
   );

@@ -8,11 +8,12 @@ import { GET_ORDER_REQUEST, LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST } from '.
 import { LOAD_USER_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import MainShops from '../components/mainShops';
+import {mainHomeShops} from "../css/homeShop";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { me } = useSelector((state) => state.user);
-  const { mainShops, hasMoreShop } = useSelector((state) => state.shop);
+  const { me } = useSelector((state:any) => state.user);
+  const { mainShops, hasMoreShop } = useSelector((state:any) => state.shop);
   const countRef = useRef([]);
 
   const onScroll = useCallback(() => {
@@ -38,7 +39,7 @@ const Home = () => {
     <>
       {me && (
         <>
-          <ul>
+          <ul css={mainHomeShops}>
             {mainShops.map((ele) => (
               <>
                 <MainShops key={ele.id} shopInfo={ele} />
@@ -71,6 +72,5 @@ export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();
 });
-
 
 export default Home;

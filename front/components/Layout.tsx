@@ -1,13 +1,11 @@
 import { jsx } from '@emotion/react';
 import Link from 'next/link';
-import * as React from 'react';
-import { ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { HomeOutlined } from '@ant-design/icons';
-import { headerList, user, shop, attend, mainSection, logout, gotoHome, makeFactory } from '../css/layout';
-import { LOG_IN_REQUEST, LOG_IN_SHOP_REQUEST, LOG_OUT_REQUEST } from '../reducers/user';
+import { headerList, user, shop, attend, mainSection, gotoHome, makeFactory } from '../css/layout';
+import { LOG_IN_REQUEST, LOG_IN_SHOP_REQUEST } from '../reducers/user';
 import LogOut from './logout';
-// todo 더미 로그인 하면, 로그아웃버튼 보이게
 interface Props {
   children: ReactElement;
 }
@@ -52,4 +50,3 @@ const AppLayout:React.FunctionComponent<Props> = ({ children }) => {
 };
 
 export default AppLayout;
-// todo footer에 가게 요청으로 로그인하고 신청할수있는 폼 만들기 백엔드작업도 필요

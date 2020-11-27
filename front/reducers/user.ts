@@ -1,5 +1,20 @@
 import produce from 'immer';
 
+// interface user{
+//   isLoggingOut: boolean,
+//   isLoggingIn: boolean,
+//   loginError: string|null,
+//   isSignedUp: boolean,
+//   isSigningUp: boolean,
+//   signUpError: string|null,
+//   me: null|any,
+//   shopIsMe: null|any,
+//   myOrder: any[],
+//   ordering: boolean,
+//   ordered: boolean,
+//   orderError: string|null,
+// }
+
 export const initialState = {
   isLoggingOut: false,
   isLoggingIn: false,
@@ -8,7 +23,12 @@ export const initialState = {
   isSigningUp: false,
   signUpError: '',
   me: null,
-  shopIsMe:null,
+  shopIsMe: null,
+  myOrder: [],
+  ordering: false,
+  ordered: false,
+  orderError: '',
+  testData: null,
 };
 export type IUserReducerState = typeof initialState;
 
@@ -35,6 +55,10 @@ export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
+
+export const ORDER_USER_REQUEST = 'ORDER_USER_REQUEST';
+export const ORDER_USER_SUCCESS = 'ORDER_USER_SUCCESS';
+export const ORDER_USER_FAILURE = 'ORDER_USER_FAILURE';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
@@ -100,15 +124,32 @@ export default (state = initialState, action) => produce(state, (draft) => {
       break;
     }
     case LOAD_USER_SUCCESS: {
-      if(action.data.shopIsMe){
-        draft.shopIsMe=action.data.shopIsMe;
-        draft.me=action.data.me;
-      }else{
-        draft.me=action.data.me;
+      if (action.data.shopIsMe) {
+        draft.shopIsMe = action.data.shopIsMe;
+        draft.me = action.data.me;
+      } else {
+        draft.me = action.data.me;
       }
       break;
     }
     case LOAD_USER_FAILURE: {
+      break;
+    }
+    case ORDER_USER_REQUEST: {
+      draft.ordering = true;
+      draft.ordered = false;
+      draft.orderError = null;
+      break;
+    }
+    case ORDER_USER_SUCCESS: {
+      draft.ordering = false;
+      draft.ordered = true;
+      draft.testData = action.data;
+      break;
+    }
+    case ORDER_USER_FAILURE: {
+      draft.ordering = false;
+      draft.orderError = action.error;
       break;
     }
     default: {

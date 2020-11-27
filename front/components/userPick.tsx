@@ -1,14 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import MenuTable from './menuTable';
-import { menuPart1 } from '../pages/shop/[shopId]';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import MenuT from './menuT';
+import { ORDER_USER_REQUEST } from '../reducers/user';
 
-const PickMenu = ({ master }) => {
+const PickMenu = ({ master, me }) => {
   const [basket, setBasket] = useState(false);
   const [userMenuBag, setBag] = useState<string[]>([]);
   const [userPriceBag, setPrice] = useState<number[]>([]);
   const { menus, menuPart } = useSelector((state) => state.shop);
+  const router = useRouter();
+  const { shopId } = router.query;
+  const dispatch = useDispatch();
 
   const EmptyBasket = useCallback(() => {
     document.getElementById('userBag').innerHTML = null;
@@ -26,11 +29,15 @@ const PickMenu = ({ master }) => {
     if (menu.length > 13) {
       menu = `${menu.slice(0, 12)},,,`;
     }
+    const order = userMenuBag.join('');
     const money: number = userPriceBag.reduce((sum, value) => sum + value);
-    console.log(`${menu},${money}원 입니다.`);
+    const userId = me.id;
     const lastCheck = confirm(`${menu},${money}원 입니다.`);
     if (lastCheck) {
-      console.log('send to info');
+      dispatch({
+        type: ORDER_USER_REQUEST,
+        data: { order, money, shopId, userId },
+      });
       setBag([]);
       setPrice([]);
     } else {
@@ -46,9 +53,7 @@ const PickMenu = ({ master }) => {
     <>
       {!master && <button type="button" className="order-togo" onClick={gotoOrder}>주문하기</button>}
       <div className="userBag">
-        <div id="userBag">
-
-        </div>
+        <div id="userBag" />
         {basket && <p className="empty-mybag" onClick={EmptyBasket}>비우기</p>}
       </div>
       <table>

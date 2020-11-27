@@ -1,5 +1,4 @@
 import produce from 'immer';
-import { menuPart } from '../pages/shop/[shopId]';
 
 export const initialState = {
   mainShops: [], // 화면에 보일 가게
@@ -12,6 +11,10 @@ export const initialState = {
   loadingGetError: '',
   menus: [],
   menuPart: [],
+  getOrder: [],
+  getOrdering: false,
+  getOrdered: false,
+  getOrderError: null,
 };
 export type IShopReducerState = typeof initialState;
 
@@ -23,9 +26,9 @@ export const LOAD_SHOP_REQUEST = 'LOAD_SHOP_REQUEST';
 export const LOAD_SHOP_SUCCESS = 'LOAD_SHOP_SUCCESS';
 export const LOAD_SHOP_FAILURE = 'LOAD_SHOP_FAILURE';
 
-export const MAKE_DUMMY_SHOP_REQUEST = 'MAKE_DUMMY_SHOP_REQUEST';
-export const MAKE_DUMMY_SHOP_SUCCESS = 'MAKE_DUMMY_SHOP_SUCCESS';
-export const MAKE_DUMMY_SHOP_FAILURE = 'MAKE_DUMMY_SHOP_FAILURE';
+export const GET_ORDER_REQUEST = 'GET_ORDER_REQUEST';
+export const GET_ORDER_SUCCESS = 'GET_ORDER_SUCCESS';
+export const GET_ORDER_FAILURE = 'GET_ORDER_FAILURE';
 
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
@@ -57,6 +60,22 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case LOAD_MAIN_SHOPS_FAILURE: {
       draft.loadingGetShop = false;
       draft.loadingGetError = action.error;
+      break;
+    }
+    case GET_ORDER_REQUEST: {
+      draft.getOrdering = true;
+      draft.getOrdered = false;
+      draft.getOrderError = null;
+      break;
+    }
+    case GET_ORDER_SUCCESS: {
+      draft.getOrdering = false;
+      draft.getOrdered = true;
+      break;
+    }
+    case GET_ORDER_FAILURE: {
+      draft.getOrdered = false;
+      draft.getOrderError = action.error;
       break;
     }
     default: {

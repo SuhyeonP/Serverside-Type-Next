@@ -241,6 +241,12 @@ const alerm = css`
     width:22px;
     height:22px;
    }
+   .shop-orderIn{
+    color:yellow;
+   }
+   .shop-notOrder{
+    color:grey;
+   }
 `;
 
 const user = ['user1', 'user2', 'user3'];

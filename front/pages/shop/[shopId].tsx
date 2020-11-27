@@ -16,9 +16,9 @@ export const menuPart1 = [{ part: 'main' }, { part: 'sub' }, { part: 'drink' }];
 
 const Shop = () => {
   const { single1Shop, menus, menuPart } = useSelector((state) => state.shop);
-  const { me } = useSelector((state) => state.user);
+  const { me, testData } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const [master, setMaster] = useState(false);
   const [seeN, setSeeN] = useState('123');
 
@@ -32,6 +32,12 @@ const Shop = () => {
     }
   }, [me]);
 
+  useEffect(() => {
+    if (testData !== null) {
+      alert(`${testData.price}가 ${testData.Shop.shopName}주문 되었습니다.홈으로 돌아갑니다.`);
+      router.push('/');
+    }
+  }, [testData]);
 
   const changeName = useCallback((part) => {
     const modiName = prompt('바꿀이름을 적어주세요');
@@ -65,13 +71,12 @@ const Shop = () => {
             src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20150410_215%2Fhakdiary_1428652773295KSpdV_JPEG%2F%25B9%25AB%25C7%25D1%25B5%25B5%25C0%25FC_%25C2%25A9_%25C1%25A4%25C7%25F6%25B5%25B7_%252815%2529.jpg&type=sc960_832"
             id="img-shop"
           />
-          <PickMenu master={master} />
+          <PickMenu master={master} me={me} />
         </div>
       </div>
     </>
   );
 };
-// todo menu table 페이징
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';

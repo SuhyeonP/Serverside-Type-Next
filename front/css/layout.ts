@@ -1,6 +1,12 @@
 import { css } from '@emotion/react';
 
 const post = ['pink', 'yellow', 'mint', 'brown'];
+
+const realMain = css`
+    *{
+    }
+`;
+
 const headerList = css`
     display:block;
     width:80vw;
@@ -254,4 +260,4 @@ const Nalerm = css`
 
 const user = ['user1', 'user2', 'user3'];
 const shop = ['shop1', 'shop2', 'shop3', 'shop4', 'shop5', 'shop6'];
-export { alerm, Nalerm, makeFactory, headerList, user, shop, attend, mainSection, shopControl, logout, gotoHome, dummyFactory };
+export { realMain, alerm, Nalerm, makeFactory, headerList, user, shop, attend, mainSection, shopControl, logout, gotoHome, dummyFactory };

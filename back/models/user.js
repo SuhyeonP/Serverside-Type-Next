@@ -18,7 +18,7 @@ module.exports=(sequelize,DataTypes)=>{
     sequelize,
   })
   User.associate=(db)=>{
-
+    db.User.hasMany(db.Order);
   }
   return User
 }

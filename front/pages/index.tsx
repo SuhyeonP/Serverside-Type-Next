@@ -4,7 +4,7 @@ import { END } from 'redux-saga';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 
-import { LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST } from '../reducers/shop';
+import { GET_ORDER_REQUEST, LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST } from '../reducers/shop';
 import { LOAD_USER_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import MainShops from '../components/mainShops';
@@ -15,7 +15,6 @@ const Home = () => {
   const { mainShops, hasMoreShop } = useSelector((state) => state.shop);
   const countRef = useRef([]);
 
-  const [factory, setFactory] = useState(false);
 
   const onScroll = useCallback(() => {
     if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 100) {

@@ -31,22 +31,22 @@ const MenuT = ({ master, menu, part, setBag, setPrice, setBasket, userMenuBag, u
           <td>{menu.menuName}</td>
           <td>{menu.price}</td>
           <td>{part}</td>
-        {master
-          ? (
-            <td>
-              <p>
-                <DeleteOutlined onClick={() => deleteMenu(part, menu.price)} />
-                <EditOutlined onClick={() => changeMenu(part, menu.price)} />
-              </p>
-            </td>
-          )
-          : (
-            <td>
-              <p>
-                <CheckSquareOutlined onClick={() => pushMyBag(menu.menuName, menu.price)} />
-              </p>
-            </td>
-          )}
+          {master
+            ? (
+              <td>
+                <p>
+                  <DeleteOutlined onClick={() => deleteMenu(part, menu.price)} />
+                  <EditOutlined onClick={() => changeMenu(part, menu.price)} />
+                </p>
+              </td>
+            )
+            : (
+              <td>
+                <p>
+                  <CheckSquareOutlined onClick={() => pushMyBag(menu.menuName, menu.price)} />
+                </p>
+              </td>
+            )}
         </tr>
       </>
     </>

@@ -11,7 +11,7 @@ const AppLayout = ({ children }) => {
   const dispatch = useDispatch();
   const test = 'test';
   const LoginDummy = useCallback((userId) => {
-    dispatch(loginRequestAction({ userId }));
+    dispatch(loginRequestAction({ userId, test }));
   }, []);
   const LoginShopDummy = useCallback((userId, shopId) => {
     console.log(userId, test, shopId);

@@ -43,7 +43,7 @@ passportConfig();
 
 app.use(morgan('dev'))
 app.use(cors({
-  origin:'*',
+  origin:['http://localhost:3000','http://localhost:80','http://54.180.80.58','http://honeyhyoni.shop','http://54.180.80.58/','http://data.honeyhyoni.shop'],
   credential:true,
 }))
 app.use(express.json());

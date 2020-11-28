@@ -6,21 +6,21 @@ module.exports={
     "username": "root",
     "password": process.env.DB_PASSWORD,
     "database": "badal",
-    "host": "127.0.0.1",
+    "host": process.env.DB_ADDRESS,
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
     "password": process.env.DB_PASSWORD,
     "database": "badal",
-    "host": "127.0.0.1",
+    "host": process.env.DB_ADDRESS,
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
     "password": process.env.DB_PASSWORD,
     "database": "badal",
-    "host": "127.0.0.1",
+    "host": process.env.DB_ADDRESS,
     "dialect": "mysql"
   }
 }

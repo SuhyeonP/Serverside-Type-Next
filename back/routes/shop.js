@@ -30,6 +30,7 @@ router.get('/menus/:shopId/more', async (req, res, next) => {
 
 router.get('/:shopId/menus',async(req,res,next)=>{
   try{
+    console.log('hi')
     const where={};
     if(parseInt(req.query.lastId,10)){
       where.id={[Op.lt]:parseInt(req.query.lastId,10)}
@@ -52,10 +53,10 @@ router.get('/:shopId/menus',async(req,res,next)=>{
     })
 
     const hh=new Set()
+    console.log(Ss.dataValues)
     Ss.Menus.map(x=>{
       hh.add(x.MenuPart.dataValues.partName)
     })
-    console.log(hh)
     res.status(200).json({shop:Ss,part:[...hh]});
     }catch(err){
 

@@ -1,5 +1,5 @@
 module.exports=(sequelize,DataTypes)=>{
-    const MenuPart=sequelize.define('MenuPart',{
+    const MenuPart=sequelize.define('menupart',{
         menuName:{
             type:DataTypes.STRING(20)
         }

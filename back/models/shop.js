@@ -1,5 +1,5 @@
 module.exports=(sequelize,DataTypes)=>{
-  const Shop=sequelize.define('Shop',{
+  const Shop=sequelize.define('shop',{
     address:{
       type:DataTypes.TEXT
     },

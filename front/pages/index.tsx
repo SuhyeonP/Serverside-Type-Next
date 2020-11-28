@@ -4,11 +4,11 @@ import { END } from 'redux-saga';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 
-import { GET_ORDER_REQUEST, LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST } from '../reducers/shop';
+import { LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST } from '../reducers/shop';
 import { LOAD_USER_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import MainShops from '../components/mainShops';
-import {mainHomeShops} from "../css/homeShop";
+import { mainHomeShops } from '../css/homeShop';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -34,6 +34,12 @@ const Home = () => {
       window.removeEventListener('scroll', onScroll);
     };
   }, [hasMoreShop, mainShops.length]);
+
+  useEffect(() => {
+    if (me) {
+      document.getElementById('admin-logout').style.display = 'block';
+    }
+  }, [me]);
 
   return (
     <>

@@ -11,6 +11,9 @@ module.exports=(sequelize,DataTypes)=>{
     nick: {
       type: DataTypes.STRING(10),
       allowNull: false
+    },
+    shopMaster:{
+      type:DataTypes.INTEGER
     }
   },{
     charset: 'utf8mb4',

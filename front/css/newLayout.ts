@@ -40,6 +40,10 @@ const headerList = css`
         padding-top:2vh;
         height:5vh;
         cursor:pointer;
+        p{
+            display:inline-block;
+            padding:0 15px;
+        }
     }
     .anticon-bell{
         position:absolute;
@@ -51,10 +55,24 @@ const headerList = css`
         display:block;
         text-align:center;
     }
+    .order-receipt{
+       position:fixed;
+       z-index:99;
+       display:table;
+       background-color:#ffffffdb;
+       box-shadow: 3px 3px 8px #0000009e;
+       div{
+            display:table-cell;
+            text-align:center;
+            vertical-align:middle;
+       }
+    }
     @media (min-width: 1024px){
         .dummy-login{
             p{
-                
+                width:73px;
+                padding:10px 0;
+                text-align:center;
             }
         }
         .logout-button{
@@ -63,12 +81,12 @@ const headerList = css`
         }
         .anticon-bell{
            left: 73vw;
-           top: 26px; 
+           top: 81px; 
            font-size:30px;
         }
         .goto-home{
            left: 23vw;
-           top: 20px; 
+           top: 78px; 
            font-size:30px;
         }
         .main-title{
@@ -104,6 +122,12 @@ const headerList = css`
         .main-title{
             padding:10px 0;
             font-size:16px;
+        }
+        .order-receipt{
+            width: 80vw;
+            height: 60vh;
+            top: 41px;
+            left: 31px;
         }
     }
 `;

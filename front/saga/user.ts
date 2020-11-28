@@ -15,7 +15,10 @@ import {
   SIGN_UP_SHOP_REQUEST,
   SIGN_UP_SHOP_SUCCESS,
   SIGN_UP_SHOP_FAILURE,
-  SIGN_UP_SUCCESS, LOAD_USER_REQUEST, LOAD_USER_SUCCESS, LOAD_USER_FAILURE,
+  SIGN_UP_SUCCESS,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
 } from '../reducers/user';
 
 function logInAPI(loginData) {
@@ -26,11 +29,11 @@ function logInAPI(loginData) {
 function* logIn(action) {
   try {
     const result = yield call(logInAPI, action.data);
-    yield put({ // put은 dispatch 동일
+    yield put({
       type: LOG_IN_SUCCESS,
       data: result.data,
     });
-  } catch (e) { // loginAPI 실패
+  } catch (e) {
     console.error(e);
     yield put({
       type: LOG_IN_FAILURE,
@@ -44,18 +47,17 @@ function* watchLogIn() {
 }
 
 function shopLoginAPI(loginData) {
-  // 서버에 요청을 보내는 부분
   return axios.post('/user/slogin', loginData);
 }
 
 function* ShoplogIn(action) {
   try {
     const result = yield call(shopLoginAPI, action.data);
-    yield put({ // put은 dispatch 동일
+    yield put({
       type: LOG_IN_SHOP_SUCCESS,
       data: result.data,
     });
-  } catch (e) { // loginAPI 실패
+  } catch (e) {
     console.error(e);
     yield put({
       type: LOG_IN_SHOP_FAILURE,
@@ -75,10 +77,10 @@ function signUpAPI(signUpData) {
 function* signUp(action) {
   try {
     yield call(signUpAPI, action.data);
-    yield put({ // put은 dispatch 동일
+    yield put({
       type: SIGN_UP_SUCCESS,
     });
-  } catch (e) { // loginAPI 실패
+  } catch (e) {
     console.error(e);
     yield put({
       type: SIGN_UP_FAILURE,
@@ -99,10 +101,10 @@ function logOutAPI() {
 function* logOut() {
   try {
     yield call(logOutAPI);
-    yield put({ // put은 dispatch 동일
+    yield put({
       type: LOG_OUT_SUCCESS,
     });
-  } catch (e) { // loginAPI 실패
+  } catch (e) {
     console.error(e);
     yield put({
       type: LOG_OUT_FAILURE,
@@ -114,8 +116,8 @@ function* watchLogOut() {
   yield takeLatest(LOG_OUT_REQUEST, logOut);
 }
 
-function shopSignUpAPI(signUpData) {
-  return axios.post('/user/shop', signUpData);
+function shopSignUpAPI(data) {
+  return axios.post('/user/shop', data);
 }
 
 function* shopSignUp(action) {
@@ -139,7 +141,6 @@ function* watchShopSignUp() {
 }
 
 function loadUserAPI(userId) {
-  // 서버에 요청을 보내는 부분
   return axios.get(userId ? `/user/${userId}` : '/user/'); // 서버사이드렌더링일 때는, 브라우저가 없어요.
 }
 
@@ -174,4 +175,3 @@ export default function* userSaga() {
     fork(watchLoadUser),
   ]);
 }
-

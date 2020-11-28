@@ -1,5 +1,5 @@
 const express = require('express');
-const {User,Shop}=require('../models')
+const {User,Shop,Order}=require('../models')
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
@@ -73,13 +73,14 @@ router.post('/slogin', (req, res, next) => {
         return next(loginErr)
       }
       const client=await Shop.findOne({
-        where:{master:user.id}
+        where:{master:user.id},
+        attributes:['id','shopName','master','address'],
+        include:[{
+          model:User,
+          attributes:['nick','id','userId','shopMaster']
+        }]
       })
-      const userInfo=await User.findOne({
-        where:{id:user.id},
-        attributes:['nick','id','userId','shopMaster']
-      })
-      return res.status(200).json({shopIsMe:client,me:userInfo});
+      return res.status(200).json(client);
     })
   })(req,res,next)
 });
@@ -94,27 +95,26 @@ router.post('/logout', isLoggedIn, (req, res) => {
 
 router.post('/shop', isLoggedIn, async (req, res, next) => { // POST /user/
   try {
-    const shop=await Shop.create({
+    console.log(req.body)
+    await Shop.create({
       address:req.body.address,
-      master:req.body.master,
-      shopName:req.body.shopName
+      master:parseInt(req.body.master,10),
+      shopName:req.body.shopName,
+      part:req.body.part,
     })
     await User.update({
-      shopMaster:1,where:{id:shop.id},
+      shopMaster:req.body.shopMaster,
+    },{
+      where:{id:req.body.master}
     })
-    const complete=await Shop.findOne({
-      where:{id:shop.id},
-      include:[{
-        model:User,
-        attributes:['id','nick'.shopMaster]
-      }]
-    })
-    res.status(201).json(complete)
+    res.status(201).send('success')
   } catch (error) {
     console.error(error);
     next(error); // status 500
   }
 });
+
+
 router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
   try {
     const exUser = await User.findOne({
@@ -130,7 +130,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
       userId: req.body.userId,
       nick: req.body.nick,
       password: hashedPassword,
-      shopMaster:0,
+      shopMaster:req.body.shopMaster,
     });
     res.status(201).send('ok');
   } catch (error) {

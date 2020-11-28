@@ -1,13 +1,13 @@
 module.exports=(sequelize,DataTypes)=>{
   const Shop=sequelize.define('Shop',{
     address:{
-      type:DataTypes.STRING(45)
+      type:DataTypes.TEXT
     },
     shopName:{
-      type:DataTypes.STRING(10)
+      type:DataTypes.TEXT
     },
     part:{
-      type:DataTypes.STRING(10)
+      type:DataTypes.TEXT
     }
   },{
     charset: 'utf8mb4',

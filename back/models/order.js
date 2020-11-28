@@ -1,7 +1,7 @@
 module.exports=(sequelize,DataTypes)=>{
     const Order=sequelize.define('Order',{
         menus:{
-            type:DataTypes.STRING(100),
+            type:DataTypes.TEXT,
             allowNull:false,
         },
         price:{

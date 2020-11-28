@@ -1,7 +1,7 @@
 module.exports=(sequelize,DataTypes)=>{
     const Menu=sequelize.define('Menu',{
         menuName:{
-            type:DataTypes.STRING(20)
+            type:DataTypes.TEXT
         }
     },{
         charset: 'utf8mb4',

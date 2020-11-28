@@ -14,7 +14,7 @@ const ShopSingUp = ({ dispatch }) => {
   const { me } = useSelector((state:any) => state.user);
 
   const JoinUsShop = useCallback(() => {
-    const master = document.getElementById('user-ID').value;
+    const master = me.id;
     const shopMaster = 1;
     dispatch({
       type: SIGN_UP_SHOP_REQUEST,

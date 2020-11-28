@@ -127,7 +127,6 @@ const headerList = css`
             width:70vw;
             margin:0 auto;
             p{
-                width:73px;
                 padding:10px 0;
                 text-align:center;
             }

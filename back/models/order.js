@@ -1,5 +1,5 @@
 module.exports=(sequelize,DataTypes)=>{
-    const Order=sequelize.define('Order',{
+    const Order=sequelize.define('order',{
         menus:{
             type:DataTypes.STRING(100),
             allowNull:false,

@@ -27,12 +27,10 @@ router.post('/', async (req, res, next) => {
 });
 router.get('/:shopId', async (req, res, next) => {
     try{
-        console.log('asdf',req.params.shopId)
         const getOrder=await Order.findOne({
             where:{shopGetOrder:parseInt(req.params.shopId,10)},
             attributes:['id']
         })
-        console.log("asdf2",getOrder)
         if(!getOrder){
             return res.status(404).send('아직 주문이 없어요')
         }

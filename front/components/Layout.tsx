@@ -5,6 +5,7 @@ import { HomeOutlined } from '@ant-design/icons';
 import { LOG_IN_REQUEST, LOG_IN_SHOP_REQUEST } from '../reducers/user';
 import LogOut from './logout';
 import { headerList, user, shop } from '../css/newLayout';
+import { GET_ORDER_REQUEST } from '../reducers/shop';
 
 interface Props {
   children: ReactElement;
@@ -18,9 +19,13 @@ const AppLayout:React.FunctionComponent<Props> = ({ children }) => {
       data: { userId, password: 'test' },
     });
   }, []);
-  const LoginShopDummy = useCallback((userId, code) => {
+  const LoginShopDummy = useCallback((userId, code, shopId) => {
     dispatch({ type: LOG_IN_SHOP_REQUEST,
       data: { userId, password: 'test', master: code },
+    });
+    dispatch({
+      type: GET_ORDER_REQUEST,
+      data: { shopId },
     });
   }, []);
   return (
@@ -30,7 +35,8 @@ const AppLayout:React.FunctionComponent<Props> = ({ children }) => {
           <>
             <div className="dummy-login">
               {user.map((ele) => <p onClick={() => LoginDummy(ele)}>{ele}</p>)}
-              {shop.map((element, ind) => <p onClick={() => LoginShopDummy(element, ind + 3)} className="shop">{element}</p>)}
+              {shop.map((element, ind) => <p onClick={() => LoginShopDummy(element, ind + 3,ind+1)} className="shop">{element}</p>)}
+              <p><Link href="/admin/signup"><a>SignUp</a></Link></p>
             </div>
           </>
         )}

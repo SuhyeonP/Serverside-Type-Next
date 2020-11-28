@@ -61,7 +61,7 @@ const mainHomeShops = css`
             width:75vw;
             padding:7px;
             background-image:url("https://mblogthumb-phinf.pstatic.net/MjAxODExMTlfMTgg/MDAxNTQyNTg5MjI1NTYz.3sUBfnwWvTKYe9AZXADttafmWkYCQv0sGfjGr47kyAwg.4mDnQfOZxDL4k0u7kFeOHdXOhGusYWk4jvyvAvAqGwIg.PNG.guehae95/5-2.png?type=w800");
-            margin:10px 0;
+            margin:25px 0;
             .mobile-img{
                 width:70px;
                 height:70px;

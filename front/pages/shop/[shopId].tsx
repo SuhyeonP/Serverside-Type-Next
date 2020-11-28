@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ControlOutlined, EditOutlined } from '@ant-design/icons';
+import { ControlOutlined } from '@ant-design/icons';
 import { END } from '@redux-saga/core';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -47,6 +47,12 @@ const Shop = () => {
       alert('취소되었습니다.');
     }
   }, []);
+
+  useEffect(() => {
+    if (me) {
+      document.getElementById('admin-logout').style.display = 'none';
+    }
+  }, [me]);
 
   const openTable = useCallback((part) => {
     document.getElementById(`rmt-${seeN}`).style.display = 'none';

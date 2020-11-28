@@ -1,108 +1,59 @@
 import * as React from 'react';
-import { useCallback, useState, useEffect } from 'react';
-import { Form } from 'antd';
-import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
-import useInput from '../../exporthing/useInput';
-import { signup } from '../../css/newLayout';
-import { SIGN_UP_REQUEST, SIGN_UP_SHOP_REQUEST } from '../../reducers/user';
+import { GetServerSideProps } from 'next';
+import axios from 'axios';
+import { END } from 'redux-saga';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import LogIn from '../../components/login';
+import SingUpComponent from '../../components/signUp';
+import wrapper from '../../store/configureStore';
+import { LOAD_USER_REQUEST, LOG_OUT_REQUEST } from '../../reducers/user';
+import ShopSingUp from '../../components/shopSignup';
 
 const Signup = () => {
-  const [userId, onChangeId] = useInput('');
-  const [nick, onChangeNick] = useInput('');
-  const [password, onChangePw] = useInput('');
-
-  const [shopName, onChangeSN] = useInput('');
-  const [address, onChangeAd] = useInput('');
-
-  const [pwCheck, setPwCheck] = useState('');
-  const [pwError, setPwError] = useState(false);
-
+  const { me, isSignedUp, isShopSignedUp } = useSelector((state:any) => state.user);
   const dispatch = useDispatch();
-
-  const { isSignedUp, me, signUpError } = useSelector((state:any) => state.user);
-
+  const router = useRouter();
   useEffect(() => {
-    if (isSignedUp) {
-      Router.push('/');
+    if (me) {
+      document.getElementById('admin-logout').style.display = 'block';
     }
-  }, [isSignedUp]);
+  }, [me]);
   useEffect(() => {
-    if (signUpError !== '') {
-      alert(signUpError);
-      Router.reload();
+    if (isShopSignedUp) {
+      alert('상점등록 성공');
+      dispatch({
+        type: LOG_OUT_REQUEST,
+      });
+      router.push('/');
     }
-  }, [signUpError]);
-
-  const onChangePwCheck = useCallback((e) => {
-    setPwError(e.target.value !== password);
-    setPwCheck(e.target.value);
-  }, [password]);
-
-  const JoinUs = useCallback((e) => {
-    if (password !== pwCheck) {
-      return setPwError(true);
-    }
-    return dispatch({
-      type: SIGN_UP_REQUEST,
-      data: { userId, nick, password },
-    });
-  }, [userId, nick, password, pwCheck]);
-
-  const JoinUsShop = useCallback(() => {
-    console.log('why');
-    const master = document.getElementById('user-ID').value;
-    dispatch({
-      type: SIGN_UP_SHOP_REQUEST,
-      data: { master, shopName, address },
-    });
-  }, [shopName, address]);
+  }, [isShopSignedUp]);
 
   return (
     <>
-      {me === null
-        ? (
-          <div css={signup}>
-            <Form onFinish={JoinUs}>
-              <div>
-                <label htmlFor="nick">닉네임&nbsp;:&nbsp;</label>
-                <input required name="nick" value={nick} onChange={onChangeNick} />
-              </div>
-              <div>
-                <label htmlFor="uid">ID&nbsp;:&nbsp;</label>
-                <input required name="uid" value={userId} onChange={onChangeId} />
-              </div>
-              <div>
-                <label htmlFor="pw">PW&nbsp;:&nbsp;</label>
-                <input type="password" required name="pw" value={password} onChange={onChangePw} />
-              </div>
-              <div>
-                <label htmlFor="pwc">PWCheck&nbsp;:&nbsp;</label>
-                <input type="password" required name="pwc" value={pwCheck} onChange={onChangePwCheck} />
-              </div>
-              {pwError && <div className="pw-error">비밀번호가 일치하지 않습니다.</div>}
-              <button type="submit" className="joinBtn">가입하기</button>
-            </Form>
-          </div>
-        )
+      {me !== null
+        ? <ShopSingUp dispatch={dispatch} />
         : (
-          <div css={signup}>
-            <Form onFinish={JoinUsShop}>
-              <input hidden id="user-ID" name="master" value={me.id} />
-              <div>
-                <label htmlFor="shopName">상점 이름&nbsp;:&nbsp;</label>
-                <input required name="shopName" value={shopName} onChange={onChangeSN} />
-              </div>
-              <div>
-                <label htmlFor="address">Address&nbsp;:&nbsp;</label>
-                <input required name="address" value={address} onChange={onChangeAd} />
-              </div>
-              <button className="joinBtn" type="submit">가입하기</button>
-            </Form>
+          <div>
+            <LogIn dispatch={dispatch} />
+            {!isSignedUp && <SingUpComponent dispatch={dispatch} />}
           </div>
         )}
-
     </>
   );
 };
+export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(async (context) => {
+  const cookie = context.req ? context.req.headers.cookie : '';
+  axios.defaults.headers.Cookie = '';
+  if (context.req && cookie) {
+    axios.defaults.headers.Cookie = cookie;
+  }
+  context.store.dispatch({
+    type: LOAD_USER_REQUEST,
+  });
+  context.store.dispatch(END);
+  await context.store.sagaTask.toPromise();
+});
+
 export default Signup;

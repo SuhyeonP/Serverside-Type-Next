@@ -18,10 +18,15 @@ import produce from 'immer';
 export const initialState = {
   isLoggingOut: false,
   isLoggingIn: false,
+  logOutDone: false,
+  loginDone: false,
   loginError: '',
   isSignedUp: false,
   isSigningUp: false,
   signUpError: '',
+  isShopSignedUp: false,
+  isShopSigningUp: false,
+  ShopSignUpError: '',
   me: null,
   shopIsMe: null,
   myOrder: [],
@@ -66,19 +71,22 @@ export default (state = initialState, action) => produce(state, (draft) => {
     case LOG_IN_REQUEST: {
       draft.isLoggingIn = true;
       draft.loginError = '';
+      draft.loginDone = false;
       break;
     }
     case LOG_IN_SHOP_SUCCESS: {
       draft.isLoggingIn = false;
       draft.loginError = '';
-      draft.shopIsMe = action.data.shopIsMe;
-      draft.me = action.data.me;
+      draft.shopIsMe = action.data;
+      draft.me = action.data.User;
+      draft.loginDone = true;
       break;
     }
     case LOG_IN_SUCCESS: {
       draft.isLoggingIn = false;
       draft.loginError = '';
       draft.me = action.data;
+      draft.loginDone = true;
       break;
     }
     case LOG_IN_SHOP_FAILURE:
@@ -90,18 +98,33 @@ export default (state = initialState, action) => produce(state, (draft) => {
     }
     case LOG_OUT_REQUEST: {
       draft.isLoggingOut = true;
+      draft.logOutDone = false;
       break;
     }
     case LOG_OUT_SUCCESS: {
       draft.isLoggingOut = false;
       draft.me = null;
+      if (draft.shopIsMe) {
+        draft.shopIsMe = null;
+      }
+      draft.logOutDone = true;
       break;
     }
-    case SIGN_UP_SHOP_REQUEST:
+    case SIGN_UP_SHOP_REQUEST: {
+      draft.isShopSignedUp = false;
+      draft.isShopSigningUp = true;
+      draft.ShopSignUpError = '';
+      break;
+    }
     case SIGN_UP_REQUEST: {
       draft.isSignedUp = false;
       draft.isSigningUp = true;
       draft.signUpError = '';
+      break;
+    }
+    case SIGN_UP_SHOP_SUCCESS: {
+      draft.isShopSignedUp = true;
+      draft.isShopSigningUp = false;
       break;
     }
     case SIGN_UP_SUCCESS: {
@@ -109,15 +132,14 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.isSignedUp = true;
       break;
     }
-    case SIGN_UP_SHOP_FAILURE:
+    case SIGN_UP_SHOP_FAILURE: {
+      draft.isShopSignedUp = false;
+      draft.ShopSignUpError = action.error;
+      break;
+    }
     case SIGN_UP_FAILURE: {
       draft.isSigningUp = false;
       draft.signUpError = action.error;
-      break;
-    }
-    case SIGN_UP_SHOP_SUCCESS: {
-      draft.isSigningUp = false;
-      draft.isSignedUp = true;
       break;
     }
     case LOAD_USER_REQUEST: {

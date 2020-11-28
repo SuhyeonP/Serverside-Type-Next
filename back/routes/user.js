@@ -1,5 +1,5 @@
 const express = require('express');
-const {User,Shop}=require('../models')
+const {User,Shop,Order}=require('../models')
 const passport = require('passport');
 const bcrypt = require('bcrypt');
 
@@ -12,14 +12,30 @@ router.get('/', async (req, res, next) => { // GET /user
     if (req.user) {
       const fullUserWithoutPassword = await User.findOne({
         where: { id: req.user.id },
-        attributes: {
-          exclude: ['password']
-        },
+        attributes: ['id','userId','nick','shopMaster'],
       })
-      console.log('not null')
-      return res.status(200).json(fullUserWithoutPassword);
+      let userReLoad= {};
+      if(fullUserWithoutPassword.dataValues.shopMaster===1){
+        const shopFind=fullUserWithoutPassword.dataValues.id
+        const theShop=await Shop.findOne({
+          where:{master:shopFind},
+          attributes:['id','shopName','master','part']
+        })
+        const order=await Order.findAll({
+          where:{shopGetOrder:theShop.dataValues.id},
+          limit:10,
+          order:[['createdAt','DESC']],
+          attributes:['price','userOrder','menus','shopGetOrder','createdAt'],
+          include:[{
+            model:User,
+            attributes:['nick']
+          }]
+        })
+        userReLoad={me:fullUserWithoutPassword,shopIsMe:theShop,order:order}
+        return res.status(200).json(userReLoad);
+      }
+      return res.status(200).json({me:fullUserWithoutPassword});
     } else {
-      console.log('null')
       res.status(200).json(null);
     }
   } catch (error) {
@@ -44,9 +60,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
       }
       const fullUserWithoutPassword = await User.findOne({
         where: { id: user.id },
-        attributes: {
-          exclude: ['password']
-        },
+        attributes: ['id','userId','nick','shopMaster'],
       })
       return res.status(200).json(fullUserWithoutPassword);
     });
@@ -68,18 +82,26 @@ router.post('/slogin', (req, res, next) => {
         console.error(loginErr)
         return next(loginErr)
       }
-      const client=await User.findOne({
-        where:{id:user.id},
-        attributes:{
-          exclude:['password']
-        }
+      console.log(req.query)
+      const order=await Order.findAll({
+        where:{shopGetOrder:parseInt(req.body.shopId)},
+        limit:6,
+        order:[['createdAt','DESC']],
+        attributes:['price','userOrder','menus','shopGetOrder','createdAt'],
+        include:[{
+          model:User,
+          attributes:['nick']
+        }]
       })
-      const shop=await Shop.findOne({
+      const client=await Shop.findOne({
         where:{master:user.id},
-        attributes:['id','master','shopName','address','part']
+        attributes:['id','shopName','master','address'],
+        include:[{
+          model:User,
+          attributes:['nick','id','userId','shopMaster']
+        }]
       })
-      const LastInfo=Array(client).concat(Array(shop))
-      return res.status(200).json(LastInfo);
+      return res.status(200).json({order,client});
     })
   })(req,res,next)
 });
@@ -94,24 +116,26 @@ router.post('/logout', isLoggedIn, (req, res) => {
 
 router.post('/shop', isLoggedIn, async (req, res, next) => { // POST /user/
   try {
-    const shop=await Shop.create({
+    console.log(req.body)
+    await Shop.create({
       address:req.body.address,
-      master:req.body.master,
-      shopName:req.body.shopName
+      master:parseInt(req.body.master,10),
+      shopName:req.body.shopName,
+      part:req.body.part,
     })
-    const complete=await Shop.findOne({
-      where:{id:shop.id},
-      include:[{
-        model:User,
-        attributes:['id','nick']
-      }]
+    await User.update({
+      shopMaster:req.body.shopMaster,
+    },{
+      where:{id:req.body.master}
     })
-    res.status(201).json(complete)
+    res.status(201).send('success')
   } catch (error) {
     console.error(error);
     next(error); // status 500
   }
 });
+
+
 router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
   try {
     const exUser = await User.findOne({
@@ -119,7 +143,6 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
         userId: req.body.userId,
       }
     });
-    console.log(exUser)
     if (exUser!==null) {
       return res.status(403).send('이미 사용 중인 아이디입니다.');
     }
@@ -128,6 +151,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => { // POST /user/
       userId: req.body.userId,
       nick: req.body.nick,
       password: hashedPassword,
+      shopMaster:req.body.shopMaster,
     });
     res.status(201).send('ok');
   } catch (error) {

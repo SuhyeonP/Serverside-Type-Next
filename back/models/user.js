@@ -1,16 +1,19 @@
 module.exports=(sequelize,DataTypes)=>{
-  const User=sequelize.define('User',{
-    userId:{
-      type:DataTypes.STRING(45),
-      allowNull:false
+  const User=sequelize.define('User', {
+    userId: {
+      type: DataTypes.STRING(45),
+      allowNull: false
     },
-    password:{
-      type:DataTypes.STRING(100),
-      allowNull:false
+    password: {
+      type: DataTypes.STRING(100),
+      allowNull: false
     },
-    nick:{
-      type:DataTypes.STRING(10),
-      allowNull:false
+    nick: {
+      type: DataTypes.STRING(10),
+      allowNull: false
+    },
+    shopMaster:{
+      type:DataTypes.INTEGER
     }
   },{
     charset: 'utf8mb4',
@@ -18,7 +21,7 @@ module.exports=(sequelize,DataTypes)=>{
     sequelize,
   })
   User.associate=(db)=>{
-
+    db.User.hasMany(db.Order);
   }
   return User
 }

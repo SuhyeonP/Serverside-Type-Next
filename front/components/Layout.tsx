@@ -1,55 +1,58 @@
-import { jsx } from '@emotion/react';
 import Link from 'next/link';
-import * as React from 'react';
-import { ReactElement, useCallback, useState } from 'react';
+import React, { ReactElement, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { HomeOutlined } from '@ant-design/icons';
-import { headerList, user, shop, attend, mainSection, logout, gotoHome } from '../css/layout';
-import { LOG_IN_REQUEST, LOG_IN_SHOP_REQUEST, LOG_OUT_REQUEST } from '../reducers/user';
+import { LOG_IN_REQUEST, LOG_IN_SHOP_REQUEST } from '../reducers/user';
 import LogOut from './logout';
-// todo 더미 로그인 하면, 로그아웃버튼 보이게
+import { headerList, user, shop } from '../css/newLayout';
+
 interface Props {
   children: ReactElement;
 }
 
 const AppLayout:React.FunctionComponent<Props> = ({ children }) => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector((state:any) => state.user);
   const dispatch = useDispatch();
   const LoginDummy = useCallback((userId) => {
-    console.log(userId);
     dispatch({ type: LOG_IN_REQUEST,
       data: { userId, password: 'test' },
     });
   }, []);
-  const LoginShopDummy = useCallback((userId, code) => {
+  const LoginShopDummy = useCallback((userId, shopId) => {
     dispatch({ type: LOG_IN_SHOP_REQUEST,
-      data: { userId, password: 'test', master: code },
+      data: { userId, password: 'test', shopId },
     });
   }, []);
   return (
     <>
-      {me ? <LogOut /> : (
-        <ul css={headerList}>
-          {user.map((ele, ind) => <li onClick={() => LoginDummy(ele)}>{ele}</li>)}
-          <li onClick={() => LoginDummy('dumy')}>testUser</li>
+      <div css={headerList}>
+        {me ? <LogOut /> : (
+          <>
+            <div className="dummy-login">
+              {user.map((ele) => <p onClick={() => LoginDummy(ele)}>{ele}</p>)}
+              {shop.map((element, ind) => <p onClick={() => LoginShopDummy(element, ind + 1)} className="shop">{element}</p>)}
+              <p><Link href="/admin/signup"><a>SignUp</a></Link></p>
+            </div>
+          </>
+        )}
+        <Link href="/">
+          <a className="goto-home">
+            <HomeOutlined />
+            <p>home</p>
+          </a>
+        </Link>
+        <h2 className="main-title">
+          이용자들은 주문을 할 수 있고,
           <br />
-          {shop.map((element, ind) => <li onClick={() => LoginShopDummy(element, ind + 5)} className="shop">{element}</li>)}
-          <Link href="/">
-            <a css={gotoHome}>
-              <HomeOutlined />
-              <p>home</p>
-            </a>
-          </Link>
-        </ul>
-      )}
-
-      <h2 css={attend}>이용자들은 주문을 할수있고, 가게는 주문을 할수있어요!!</h2>
-      <div css={mainSection}>
-        {children}
+          {' '}
+          가게는 주문을 받을 수 있어요!!
+        </h2>
+        <div>
+          {children}
+        </div>
       </div>
     </>
   );
 };
 
 export default AppLayout;
-// todo footer에 가게 요청으로 로그인하고 신청할수있는 폼 만들기 백엔드작업도 필요

@@ -1,25 +1,25 @@
 const express = require('express');
 const { Op } = require('sequelize');
 
-const { Shop,User } = require('../models');
+const { Shop,Menu,MenuPart } = require('../models');
 const router = express.Router();
 
-router.get('/', async (req, res, next) => { // GET /shops
+
+router.get('/menus/:shopId/more', async (req, res, next) => {
   try {
+    console.log(req.query,req.params)
     const where = {};
     if (parseInt(req.query.lastId, 10)) { // 초기 로딩이 아닐 때
       where.id = { [Op.lt]: parseInt(req.query.lastId, 10)}
-    } // 21 20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1
-    const shops = await Shop.findAll({
+      where.shopId=req.params.shopId
+    }
+    const shops = await Menu.findAll({
       where,
-      limit: 6,
+      limit:4 ,
       order: [
-        ['createdAt', 'DESC'],
+        ['id'],
       ],
-      include: [{
-        model: User,
-        attributes: ['id', 'nick'],
-      }]
+      attributes:['id','menuName','price','shopId'],
     });
     res.status(200).json(shops);
   } catch (error) {
@@ -27,5 +27,40 @@ router.get('/', async (req, res, next) => { // GET /shops
     next(error);
   }
 });
+
+router.get('/:shopId/menus',async(req,res,next)=>{
+  try{
+    const where={};
+    if(parseInt(req.query.lastId,10)){
+      where.id={[Op.lt]:parseInt(req.query.lastId,10)}
+    }
+    console.log("lastId:",parseInt(req.query.lastId,10))
+    const Ss=await Shop.findOne({
+      where:{id:req.params.shopId},
+      attributes:['id','address','shopName','part','master'],
+      include:[{
+        model:Menu,
+        where,
+        limit:3,
+        order: [['id','DESC']],
+        attributes:['id','menuName','price','shopId'],
+        include:[{
+          model:MenuPart,
+          attributes:['id','partName']
+        }],
+      }]
+    })
+
+    const hh=new Set()
+    Ss.Menus.map(x=>{
+      hh.add(x.MenuPart.dataValues.partName)
+    })
+    console.log(hh)
+    res.status(200).json({shop:Ss,part:[...hh]});
+    }catch(err){
+
+  }
+})
+
 
 module.exports = router;

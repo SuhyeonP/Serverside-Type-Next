@@ -8,6 +8,9 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 
 db.User=require('./user')(sequelize,Sequelize);
 db.Shop=require('./shop')(sequelize,Sequelize);
+db.Menu=require('./menu')(sequelize,Sequelize);
+db.MenuPart=require('./menuPart')(sequelize,Sequelize);
+db.Order=require('./order')(sequelize,Sequelize);
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {

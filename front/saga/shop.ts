@@ -58,7 +58,7 @@ function* watchLoadShop() {
   yield takeLatest(LOAD_SHOP_REQUEST, loadShop);
 }
 
-export default function* postSaga() {
+export default function* shopSaga() {
   yield all([
     fork(watchLoadShops),
     fork(watchLoadShop),

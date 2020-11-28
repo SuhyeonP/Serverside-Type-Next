@@ -2,14 +2,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import * as React from 'react';
 import { BellTwoTone } from '@ant-design/icons';
 import { useCallback } from 'react';
-import { LOG_OUT_REQUEST } from '../reducers/user';
+import { LOG_OUT_REQUEST, logoutRequestAction } from '../reducers/user';
 import ShopBell from './shopperOrder';
 
 const LogOut = () => {
   const { me } = useSelector((state:any) => state.user);
   const dispatch = useDispatch();
   const logOut = useCallback(() => {
-    dispatch({ type: LOG_OUT_REQUEST });
+    dispatch({ type: logoutRequestAction });
   }, []);
   return (
     <>

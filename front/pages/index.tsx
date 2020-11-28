@@ -9,6 +9,7 @@ import { LOAD_USER_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import MainShops from '../components/mainShops';
 import { mainHomeShops } from '../css/homeShop';
+import AppLayout from '../components/Layout';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,8 @@ const Home = () => {
 
   return (
     <>
-      {me && (
+      <AppLayout>
+        {me && (
         <>
           <ul css={mainHomeShops}>
             {mainShops.map((ele) => (
@@ -53,8 +55,9 @@ const Home = () => {
             ))}
           </ul>
         </>
-      )}
-      {!me && <p>로그인 이후 이용이 가능합니다.</p>}
+        )}
+        {!me && <p>로그인 이후 이용이 가능합니다.</p>}
+      </AppLayout>
     </>
   );
 };

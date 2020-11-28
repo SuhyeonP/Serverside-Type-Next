@@ -22,6 +22,7 @@ const headerList = css`
         text-align:center;
         p{
             display:inline-block;
+            cursor:pointer;
         }
     }
     .goto-home{
@@ -112,7 +113,7 @@ const headerList = css`
             height: 20vh;
             top: 15vh;
             left: 61vw;
-        }t
+        }
     }
     @media (max-width: 1023px) and (min-width:678px){
         .dummy-login{
@@ -188,7 +189,5 @@ const signup = css`
     
 `;
 
-const user = ['user1', 'user2', 'user3'];
-const shop = ['shop1', 'shop2', 'shop3', 'shop4', 'shop5', 'shop6'];
 
-export { commonCss, signup, user, shop, headerList };
+export { commonCss, signup, headerList };

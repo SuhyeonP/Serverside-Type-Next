@@ -25,11 +25,27 @@ db.sequelize.sync()
   .catch(console.error);
 passportConfig();
 
-app.use(morgan('dev'));
+// if(process.env.NODE_ENV === 'production'){
+//   app.use(morgan('combined'));
+//   app.use(hpp())
+//   app.use(helmet())
+//   app.use(cors({
+//     origin: ['http://localhost:3000','http://localhost:80','http://54.180.80.58','http://honeyhyoni.shop','http://data.honeyhyoni.shop'],
+//     credentials: true,
+//   }));
+// }else{
+//   app.use(morgan('dev'));
+//   app.use(cors({
+//     origin: ['http://localhost:3000','http://localhost:80','http://54.180.80.58','http://honeyhyoni.shop','http://data.honeyhyoni.shop'],
+//     credentials: true,
+//   }));
+// }
+
+app.use(morgan('dev'))
 app.use(cors({
-  origin: ['http://localhost:3000','http://54.180.80.58'],
-  credentials: true,
-}));
+  origin:'*',
+  credential:true,
+}))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));

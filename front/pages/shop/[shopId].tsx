@@ -10,6 +10,7 @@ import { LOAD_USER_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import PickMenu from '../../components/userPick';
 import { singleShopCss } from '../../css/singleShop';
+import AppLayout from "../../components/Layout";
 
 export const menuPart1 = [{ part: 'main' }, { part: 'sub' }, { part: 'drink' }];
 
@@ -59,7 +60,7 @@ const Shop = () => {
   }, [me]);
 
   return (
-    <>
+    <AppLayout>
       <div css={singleShopCss}>
         <h3>
           {single1Shop.shopName}
@@ -76,7 +77,7 @@ const Shop = () => {
         </div>
         <PickMenu master={master} me={me} />
       </div>
-    </>
+    </AppLayout>
   );
 };
 

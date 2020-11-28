@@ -3,8 +3,8 @@
   "version": "0.0.2",
   "scripts": {
     "dev": "next",
-    "build": "next build",
-    "start": "next start",
+    "build": "cross-env ANALYZE=true NODE_ENV=production next build",
+    "start": "cross-env NODE_ENV=production next start",
     "type-check": "tsc"
   },
   "dependencies": {
@@ -13,24 +13,28 @@
     "@emotion/css": "^11.0.0",
     "@emotion/react": "^11.1.1",
     "@emotion/server": "^11.0.0",
+    "@next/bundle-analyzer": "^10.0.3",
     "@types/faker": "^5.1.4",
     "@types/react-helmet": "^6.1.0",
     "@types/react-redux": "^7.1.11",
     "@types/shortid": "^0.0.29",
     "antd": "^4.8.5",
     "axios": "^0.21.0",
+    "cross-env": "^7.0.2",
     "customize-cra": "^1.0.0",
     "immer": "^8.0.0",
     "next": "latest",
     "next-redux-saga": "^4.1.2",
     "next-redux-wrapper": "^6.0.2",
+    "pm2": "^4.5.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-helmet": "^6.1.0",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
-    "redux-saga": "^1.1.3"
+    "redux-saga": "^1.1.3",
+    "swr": "^0.3.9"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.12.7",

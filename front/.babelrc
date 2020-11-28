@@ -1,4 +1,8 @@
 {
+  "presets": [
+    "next/babel",
+    "@emotion/babel-preset-css-prop"
+  ],
   "plugins": [
     [
       "@emotion",
@@ -9,9 +13,5 @@
         "cssPropOptimization": true
       }
     ]
-  ],
-  "presets": [
-    "next/babel",
-    "@emotion/babel-preset-css-prop"
   ]
 }

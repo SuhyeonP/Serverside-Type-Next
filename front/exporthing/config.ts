@@ -1,1 +1,1 @@
-export const backUrl = 'http://api.suhyeon.shops';
+export const backUrl = 'http://api.suhyeon.shop';

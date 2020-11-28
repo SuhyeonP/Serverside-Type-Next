@@ -15,7 +15,7 @@ module.exports = () => {
       if (!user) {
         return done(null, false, {reason: '존재하지 않는 아이디!'});
       }
-      const result = await bcrypt.compare('test', user.password);
+      const result = await bcrypt.compare(password, user.password);
       if (result) {
         return done(null, user);
       }

@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
 import axios from 'axios';
-import { GetServerSideProps } from 'next';
 
 import { LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST } from '../reducers/shop';
 import { LOAD_USER_REQUEST } from '../reducers/user';
@@ -13,8 +12,8 @@ import AppLayout from '../components/Layout';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const { me } = useSelector((state:any) => state.user);
-  const { mainShops, hasMoreShop } = useSelector((state:any) => state.shop);
+  const { me } = useSelector((state) => state.user);
+  const { mainShops, hasMoreShop } = useSelector((state) => state.shop);
   const countRef = useRef([]);
 
   const onScroll = useCallback(() => {
@@ -43,8 +42,8 @@ const Home = () => {
   }, [me]);
 
   return (
-    <>
-      <AppLayout>
+    <AppLayout>
+      <>
         {me && (
         <>
           <ul css={mainHomeShops}>
@@ -57,12 +56,12 @@ const Home = () => {
         </>
         )}
         {!me && <p>로그인 이후 이용이 가능합니다.</p>}
-      </AppLayout>
-    </>
+      </>
+    </AppLayout>
   );
 };
 
-export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(async (context) => {
+export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
   const cookie = context.req ? context.req.headers.cookie : '';
   axios.defaults.headers.Cookie = '';
   if (context.req && cookie) {
@@ -74,12 +73,8 @@ export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(
   context.store.dispatch({
     type: LOAD_MAIN_SHOPS_REQUEST,
   });
-  context.store.dispatch({
-    type: LOAD_SHOP_REQUEST,
-    data: { shopId: 1, lastId: 0 },
-  });
+
   context.store.dispatch(END);
-  // @ts-ignore
   await context.store.sagaTask.toPromise();
 });
 

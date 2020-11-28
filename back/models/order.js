@@ -14,8 +14,7 @@ module.exports=(sequelize,DataTypes)=>{
         sequelize,
     })
     Order.associate=(db)=>{
-        db.Order.belongsTo(db.User,{foreignKey:'userOrder'});
-        db.Order.belongsTo(db.Shop,{foreignKey:'shopGetOrder'});
+
     }
     return Order;
 }

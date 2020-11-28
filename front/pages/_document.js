@@ -1,5 +1,6 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { commonCss } from '../css/newLayout';
 
 export default class MyDocument extends Document {
   static async getInitalProps(ctx) {
@@ -28,7 +29,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head />
-        <body>
+        <body css={commonCss}>
           <Main />
           <NextScript />
         </body>

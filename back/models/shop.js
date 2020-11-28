@@ -15,9 +15,6 @@ module.exports=(sequelize,DataTypes)=>{
     sequelize,
   })
   Shop.associate=(db)=>{
-    db.Shop.belongsTo(db.User,{foreignKey:'master'});
-    db.Shop.hasMany(db.Menu);
-    db.Shop.hasMany(db.Order);
   }
   return Shop
 }

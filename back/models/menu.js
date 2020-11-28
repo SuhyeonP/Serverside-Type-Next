@@ -9,9 +9,7 @@ module.exports=(sequelize,DataTypes)=>{
         sequelize,
     })
     Menu.associate=(db)=>{
-        db.Menu.belongsTo(db.Shop,{foreignKey:'shopId'});
-        // db.Menu.belongsToMany(db.MenuPart,{through:'MenuEach',as:'MenuToPart',foreignKey:'menuPart'});
-        db.Menu.belongsTo(db.MenuPart,{foreignKey:'menuPart'});
+
     }
     return Menu
 }

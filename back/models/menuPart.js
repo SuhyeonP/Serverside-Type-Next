@@ -9,7 +9,7 @@ module.exports=(sequelize,DataTypes)=>{
         sequelize,
     })
     MenuPart.associate=(db)=>{
-        db.MenuPart.hasMany(db.Menu);
+
     }
     return MenuPart
 }

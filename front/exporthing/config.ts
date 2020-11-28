@@ -1,1 +1,1 @@
-export const backUrl = 'http://localhost:3050';
+export const backUrl = 'http://api.suhyeon.shops';

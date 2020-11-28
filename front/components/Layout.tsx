@@ -2,27 +2,24 @@ import Link from 'next/link';
 import React, { ReactElement, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { HomeOutlined } from '@ant-design/icons';
-import { LOG_IN_REQUEST, LOG_IN_SHOP_REQUEST } from '../reducers/user';
+import { loginRequestAction, loginRequestShopAction } from '../reducers/user';
 import LogOut from './logout';
-import { headerList, user, shop } from '../css/newLayout';
+import { headerList } from '../css/newLayout';
 
-interface Props {
-  children: ReactElement;
-}
-
-const AppLayout:React.FunctionComponent<Props> = ({ children }) => {
+const AppLayout = ({ children }) => {
   const { me } = useSelector((state:any) => state.user);
   const dispatch = useDispatch();
+  const test = 'test';
   const LoginDummy = useCallback((userId) => {
-    dispatch({ type: LOG_IN_REQUEST,
-      data: { userId, password: 'test' },
-    });
+    dispatch(loginRequestAction({ userId }));
   }, []);
   const LoginShopDummy = useCallback((userId, shopId) => {
-    dispatch({ type: LOG_IN_SHOP_REQUEST,
-      data: { userId, password: 'test', shopId },
-    });
+    console.log(userId, test, shopId);
+    dispatch(loginRequestShopAction({ userId, shopId }));
   }, []);
+  const user = ['user1', 'user2', 'user3'];
+  const shop = ['shop1', 'shop2', 'shop3', 'shop4', 'shop5', 'shop6'];
+
   return (
     <>
       <div css={headerList}>

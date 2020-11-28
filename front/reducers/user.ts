@@ -68,6 +68,18 @@ export const ORDER_USER_REQUEST = 'ORDER_USER_REQUEST';
 export const ORDER_USER_SUCCESS = 'ORDER_USER_SUCCESS';
 export const ORDER_USER_FAILURE = 'ORDER_USER_FAILURE';
 
+export const loginRequestAction = (data) => ({
+  type: LOG_IN_REQUEST,
+  data,
+});
+export const loginRequestShopAction = (data) => ({
+  type: LOG_IN_SHOP_REQUEST,
+  data,
+});
+export const logoutRequestAction = () => ({
+  type: LOG_OUT_REQUEST,
+});
+
 export default (state = initialState, action) => produce(state, (draft) => {
   switch (action.type) {
     case LOG_IN_SHOP_REQUEST:
@@ -158,7 +170,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
         draft.shopIsMe = action.data.shopIsMe;
         draft.me = action.data.me;
         draft.shopGetOrder = action.data.order;
-      } else {
+      } else if (action.data.shopIsMe === null) {
         draft.me = action.data.me;
       }
       break;

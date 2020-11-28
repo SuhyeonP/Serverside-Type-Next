@@ -30,7 +30,7 @@ function* userPostOrder(action) {
 function* watchUserOrder() {
   yield takeEvery(ORDER_USER_REQUEST, userPostOrder);
 }
-export default function* postSaga() {
+export default function* orderSaga() {
   yield all([
     fork(watchUserOrder),
   ]);

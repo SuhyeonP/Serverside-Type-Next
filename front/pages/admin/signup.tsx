@@ -10,6 +10,7 @@ import SingUpComponent from '../../components/signUp';
 import wrapper from '../../store/configureStore';
 import { LOAD_USER_REQUEST, LOG_OUT_REQUEST } from '../../reducers/user';
 import ShopSingUp from '../../components/shopSignup';
+import AppLayout from "../../components/Layout";
 
 const Signup = () => {
   const { me, isSignedUp, isShopSignedUp } = useSelector((state:any) => state.user);
@@ -31,7 +32,7 @@ const Signup = () => {
   }, [isShopSignedUp]);
 
   return (
-    <>
+    <AppLayout>
       {me !== null
         ? <ShopSingUp dispatch={dispatch} />
         : (
@@ -40,7 +41,7 @@ const Signup = () => {
             {!isSignedUp && <SingUpComponent dispatch={dispatch} />}
           </div>
         )}
-    </>
+    </AppLayout>
   );
 };
 export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(async (context) => {

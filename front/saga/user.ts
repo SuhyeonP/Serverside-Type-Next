@@ -21,13 +21,13 @@ import {
   LOAD_USER_FAILURE,
 } from '../reducers/user';
 
-function logInAPI(loginData) {
-  // 서버에 요청을 보내는 부분
-  return axios.post('/user/login', loginData);
+function logInAPI(data) {
+  return axios.post('/user/login', data);
 }
 
 function* logIn(action) {
   try {
+    console.log(action);
     const result = yield call(logInAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
@@ -43,7 +43,7 @@ function* logIn(action) {
 }
 
 function* watchLogIn() {
-  yield takeEvery(LOG_IN_REQUEST, logIn);
+  yield takeLatest(LOG_IN_REQUEST, logIn);
 }
 
 function shopLoginAPI(loginData) {

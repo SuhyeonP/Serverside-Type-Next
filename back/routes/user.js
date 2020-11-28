@@ -62,6 +62,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         where: { id: user.id },
         attributes: ['id','userId','nick','shopMaster'],
       })
+      console.log(fullUserWithoutPassword);
       return res.status(200).json(fullUserWithoutPassword);
     });
   })(req, res, next);

@@ -3,6 +3,7 @@ import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/do
 import { commonCss } from '../css/newLayout';
 
 export default class MyDocument extends Document {
+  // eslint-disable-next-line consistent-return
   static async getInitialProps(ctx:DocumentContext) {
     const originalRenderPage = ctx.renderPage;
 
@@ -27,7 +28,7 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <Head/>
+        <Head />
         <body css={commonCss}>
           <Main />
           <NextScript />

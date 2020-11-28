@@ -53,6 +53,7 @@ export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(
     type: LOAD_USER_REQUEST,
   });
   context.store.dispatch(END);
+  // @ts-ignore
   await context.store.sagaTask.toPromise();
 });
 

@@ -30,7 +30,7 @@ passportConfig();
 if(process.env.NODE_ENV === 'production'){
   app.use(morgan('combined'));
   app.use(hpp())
-  app.use(helmet())
+  app.use(helmet({ contentSecurityPolicy: false }));
   app.use(cors({
     origin: ['http://localhost:3000','http://54.180.80.58','http://honeyhyoni.shop','http://data.honeyhyoni.shop','http://suhyeon.shop'],
     credentials: true,

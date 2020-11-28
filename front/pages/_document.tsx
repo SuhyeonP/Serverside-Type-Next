@@ -3,7 +3,7 @@ import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/do
 import { commonCss } from '../css/newLayout';
 
 export default class MyDocument extends Document {
-  static async getInitalProps(ctx:DocumentContext) {
+  static async getInitialProps(ctx:DocumentContext) {
     const originalRenderPage = ctx.renderPage;
 
     try {

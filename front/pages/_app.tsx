@@ -18,16 +18,13 @@ function SUhyeon({ Component }) {
     </>
   );
 }
-// SUhyeon.getInitialProps = async (context) => {
-//   const { ctx, Component } = context;
-//   let pageProps = {};
-//   const state = ctx.store.getState();
-//   const newState = ctx.store.GetServerSidePropsContext;
-//   console.log('thisisstate', newState);
-//   if (Component.getInitialProps) {
-//     pageProps = await context.Component.getInitialProps(ctx);
-//   }
-//   return { pageProps };
-// };
+SUhyeon.getInitialProps = async (context) => {
+  const { ctx, Component } = context;
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await context.Component.getInitialProps(ctx);
+  }
+  return { pageProps };
+};
 
 export default wrapper.withRedux(SUhyeon);

@@ -42,6 +42,16 @@ const singleShopCss = css`
             }
         }
     }
+    .pagination{
+        display:block;
+        text-align:center;
+        margin-top:20px;
+        div{
+            display:inline-flex;
+            width:20vw;
+            justify-content:space-between;
+        }
+    }
     @media (min-width: 1024px){
         .shop-image{
             img{
@@ -87,8 +97,12 @@ const singleShopCss = css`
         table{
             width: 80vw;
             margin: 10px auto;
+            tr{
+                padding:10px 0;
+            }
             td{
                 text-align:center;
+                padding:30px 0;
             }
         }
         .order-togo{

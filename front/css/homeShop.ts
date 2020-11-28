@@ -35,7 +35,7 @@ const mainHomeShops = css`
         .home-list{
             width:54vw;
             padding:7px 0 0 32px;
-            margin:10px 0;
+            margin:30px 0;
             background:#fffff3;
             img{
                 width:70px;

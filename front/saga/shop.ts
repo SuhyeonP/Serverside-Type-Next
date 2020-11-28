@@ -34,13 +34,13 @@ function* watchLoadShops() {
   yield throttle(2000, LOAD_MAIN_SHOPS_REQUEST, loadShops);
 }
 
-function loadShopAPI(shopId) {
-  return axios.get(`/shop/${shopId}`);
+function loadShopAPI(shopId, lastId) {
+  return axios.get(`/shop/${shopId}/menus?lastId=${lastId || 0}`);
 }
 
 function* loadShop(action) {
   try {
-    const result = yield call(loadShopAPI, action.data);
+    const result = yield call(loadShopAPI, action.data.shopId, action.data.lastId);
     yield put({
       type: LOAD_SHOP_SUCCESS,
       data: result.data,
@@ -57,6 +57,7 @@ function* loadShop(action) {
 function* watchLoadShop() {
   yield takeLatest(LOAD_SHOP_REQUEST, loadShop);
 }
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadShops),

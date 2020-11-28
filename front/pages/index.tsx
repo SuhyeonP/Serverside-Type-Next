@@ -4,7 +4,7 @@ import { END } from 'redux-saga';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 
-import { LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST } from '../reducers/shop';
+import { LOAD_MAIN_SHOPS_REQUEST, LOAD_SHOP_REQUEST, SHOP_LENGTH_REQUEST } from '../reducers/shop';
 import { LOAD_USER_REQUEST } from '../reducers/user';
 import wrapper from '../store/configureStore';
 import MainShops from '../components/mainShops';
@@ -73,7 +73,7 @@ export const getServerSideProps:GetServerSideProps = wrapper.getServerSideProps(
   });
   context.store.dispatch({
     type: LOAD_SHOP_REQUEST,
-    data: 1,
+    data: { shopId: 1, lastId: 0 },
   });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();

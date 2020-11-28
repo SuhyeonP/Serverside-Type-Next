@@ -34,6 +34,9 @@ export const initialState = {
   ordered: false,
   orderError: '',
   testData: null,
+  shopGetOrder: [],
+  shopGettingOrder: false,
+  shopGotOrder: false,
 };
 export type IUserReducerState = typeof initialState;
 
@@ -72,13 +75,18 @@ export default (state = initialState, action) => produce(state, (draft) => {
       draft.isLoggingIn = true;
       draft.loginError = '';
       draft.loginDone = false;
+      draft.shopGotOrder = false;
+      draft.shopGettingOrder = true;
+      draft.shopGetOrder = [];
       break;
     }
     case LOG_IN_SHOP_SUCCESS: {
       draft.isLoggingIn = false;
       draft.loginError = '';
-      draft.shopIsMe = action.data;
-      draft.me = action.data.User;
+      draft.shopIsMe = action.data.client;
+      draft.me = action.data.client.User;
+      draft.shopGotOrder = true;
+      draft.shopGetOrder = draft.shopGetOrder.concat(action.data.order);
       draft.loginDone = true;
       break;
     }
@@ -149,6 +157,7 @@ export default (state = initialState, action) => produce(state, (draft) => {
       if (action.data.shopIsMe) {
         draft.shopIsMe = action.data.shopIsMe;
         draft.me = action.data.me;
+        draft.shopGetOrder = action.data.order;
       } else {
         draft.me = action.data.me;
       }

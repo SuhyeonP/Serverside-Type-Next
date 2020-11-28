@@ -21,7 +21,17 @@ router.get('/', async (req, res, next) => { // GET /user
           where:{master:shopFind},
           attributes:['id','shopName','master','part']
         })
-        userReLoad={me:fullUserWithoutPassword,shopIsMe:theShop}
+        const order=await Order.findAll({
+          where:{shopGetOrder:theShop.dataValues.id},
+          limit:10,
+          order:[['createdAt','DESC']],
+          attributes:['price','userOrder','menus','shopGetOrder','createdAt'],
+          include:[{
+            model:User,
+            attributes:['nick']
+          }]
+        })
+        userReLoad={me:fullUserWithoutPassword,shopIsMe:theShop,order:order}
         return res.status(200).json(userReLoad);
       }
       return res.status(200).json({me:fullUserWithoutPassword});
@@ -72,6 +82,17 @@ router.post('/slogin', (req, res, next) => {
         console.error(loginErr)
         return next(loginErr)
       }
+      console.log(req.query)
+      const order=await Order.findAll({
+        where:{shopGetOrder:parseInt(req.body.shopId)},
+        limit:6,
+        order:[['createdAt','DESC']],
+        attributes:['price','userOrder','menus','shopGetOrder','createdAt'],
+        include:[{
+          model:User,
+          attributes:['nick']
+        }]
+      })
       const client=await Shop.findOne({
         where:{master:user.id},
         attributes:['id','shopName','master','address'],
@@ -80,7 +101,7 @@ router.post('/slogin', (req, res, next) => {
           attributes:['nick','id','userId','shopMaster']
         }]
       })
-      return res.status(200).json(client);
+      return res.status(200).json({order,client});
     })
   })(req,res,next)
 });

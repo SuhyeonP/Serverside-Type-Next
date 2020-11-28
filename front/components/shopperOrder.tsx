@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const ShopBell = () => {
   const [orderR, setOrderR] = useState(false);
-  const { getOrderError, getOrdered } = useSelector((state:any) => state.user);
+  const { shopGotOrder, shopGetOrder } = useSelector((state:any) => state.user);
   const openOrder = useCallback(() => {
     if (orderR) {
       setOrderR(false);
@@ -25,11 +25,8 @@ const ShopBell = () => {
       window.removeEventListener('scroll', onScrollReceipt);
     };
   }, [orderR]);
-  useEffect(() => {
-    console.log(getOrdered);
-  }, [getOrdered]);
 
-  if (getOrderError) {
+  if (shopGetOrder.length === 0) {
     return (
       <>
         <BellOutlined onClick={openOrder} />
@@ -48,8 +45,14 @@ const ShopBell = () => {
       <BellFilled onClick={openOrder} />
       {orderR && (
       <div className="order-receipt" id="order-receipt">
-        <div>
-          <p>;ㅅ;</p>
+        <div id="scroll-receipt">
+          {shopGetOrder.map((ele) => (
+            <>
+              <div className="order-one">
+                <p>{`메뉴:${ele.menus}`},{`결제 금액:${ele.price}`},{`결제 일자:${ele.createdAt}`}</p>
+              </div>
+            </>
+          ))}
         </div>
       </div>
       )}

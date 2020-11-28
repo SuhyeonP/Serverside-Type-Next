@@ -58,13 +58,27 @@ const headerList = css`
     .order-receipt{
        position:fixed;
        z-index:99;
-       display:table;
+       display:inline-block;
        background-color:#ffffffdb;
        box-shadow: 3px 3px 8px #0000009e;
+       padding:13px;
        div{
-            display:table-cell;
-            text-align:center;
-            vertical-align:middle;
+            display:block;
+            text-align:center;    
+            overflow-y: scroll;
+            height: 94%;
+            .order-one{
+                margin:10px 0;
+                width:95%;
+                height:40px;
+                overflow:hidden;
+                p{
+                    display:inline-block;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+            }
        }
     }
     @media (min-width: 1024px){
@@ -93,6 +107,12 @@ const headerList = css`
             padding:25px 0;
             font-size:28px;
         }
+        .order-receipt{
+            width: 30vw;
+            height: 20vh;
+            top: 15vh;
+            left: 61vw;
+        }t
     }
     @media (max-width: 1023px) and (min-width:678px){
         .dummy-login{

@@ -32,22 +32,16 @@ if(process.env.NODE_ENV === 'production'){
   app.use(hpp())
   app.use(helmet())
   app.use(cors({
-    origin: ['http://localhost:3000','http://localhost:80','http://54.180.80.58','http://honeyhyoni.shop','http://data.honeyhyoni.shop','http://suhyeon.shop'],
+    origin: ['http://localhost:3000','http://54.180.80.58','http://honeyhyoni.shop','http://data.honeyhyoni.shop','http://suhyeon.shop'],
     credentials: true,
   }));
 }else{
   app.use(morgan('dev'));
   app.use(cors({
-    origin: ['http://localhost:3000','http://localhost:80','http://54.180.80.58','http://honeyhyoni.shop','http://data.honeyhyoni.shop','http://suhyeon.shop'],
+    origin: ['http://localhost:3000','http://honeyhyoni.shop','http://data.honeyhyoni.shop','http://suhyeon.shop'],
     credentials: true,
   }));
 }
-//
-// app.use(morgan('dev'))
-// app.use(cors({
-//   origin:['http://localhost:3000','http://localhost:80','http://54.180.80.58','http://honeyhyoni.shop','http://54.180.80.58/','http://data.honeyhyoni.shop'],
-//   credential:true,
-// }))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -55,6 +49,11 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.COOKIE_SECRET,
+  cookie:{
+    httpOnly:true,
+    secure:false,
+    domain:process.env.NODE_ENV==='production'&&'.suhyeon.com'
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());

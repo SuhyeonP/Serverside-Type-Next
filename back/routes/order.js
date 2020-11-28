@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { Op } = require('sequelize');
 const { Shop,Order,User } = require('../models');
 const router = express.Router();
 
@@ -25,8 +25,22 @@ router.post('/', async (req, res, next) => {
         next(err);
     }
 });
-router.get('/:shopId', async (req, res, next) => {
+
+router.get('/test/paging',async(req,res,next)=>{
     try{
+        const allOrder=await Order.findAll({
+            attributes:['id','menus','price']
+        })
+        console.log(allOrder.length)
+        return res.status(200).json(allOrder)
+    }catch(err){
+        console.error(err)
+        next(err)
+    }
+})
+
+router.get('/shopsOrder/:shopId',async(req,res,next)=>{
+    try {
         const getOrder=await Order.findOne({
             where:{shopGetOrder:parseInt(req.params.shopId,10)},
             attributes:['id']
@@ -34,23 +48,23 @@ router.get('/:shopId', async (req, res, next) => {
         if(!getOrder){
             return res.status(404).send('아직 주문이 없어요')
         }
-        const fullOrder=await Order.findAll({
+        const only1Shop=await Order.findAll({
             where:{shopGetOrder:parseInt(req.params.shopId,10)},
-            limit:3,
-            attributes:['menus','price','userOrder','shopGetOrder'],
+            order:[['createdAt','DESC']],
+            limit:4,
+            attributes:['menus','price','createdAt'],
             include:[{
-                model:Shop,
-                attributes:['master','shopName'],
-            },{
                 model:User,
-                attributes:['nick','userId'],
+                attributes:['nick']
             }]
         })
-        res.status(200).json(fullOrder);
-    }catch(err){
-        console.error(err)
-        next(err)
+        res.status(200).json(only1Shop)
+    } catch (error) {
+        console.error(error);
+        next(error);
     }
 });
+
+
 
 module.exports = router;

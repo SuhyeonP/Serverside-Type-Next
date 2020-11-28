@@ -2,40 +2,10 @@ import { all, fork, takeLatest, put, throttle, call, takeEvery } from 'redux-sag
 import axios from 'axios';
 
 import {
-  GET_ORDER_REQUEST,
-  GET_ORDER_SUCCESS,
-  GET_ORDER_FAILURE,
-} from '../reducers/shop';
-
-import {
   ORDER_USER_REQUEST,
   ORDER_USER_SUCCESS,
   ORDER_USER_FAILURE,
 } from '../reducers/user';
-
-function shopGetOrderAPI(shopId) {
-  return axios.get(`/order/${shopId}`);
-}
-
-function* shopGetOrder(action) {
-  try {
-    const result = yield call(shopGetOrderAPI, action.data.shopId);
-    yield put({
-      type: GET_ORDER_SUCCESS,
-      data: result.data,
-    });
-  } catch (err) {
-    console.error(err);
-    yield put({
-      type: GET_ORDER_FAILURE,
-      error: err.response.data,
-    });
-  }
-}
-
-function* watchShopGetOrder() {
-  yield takeLatest(GET_ORDER_REQUEST, shopGetOrder);
-}
 
 function userPostOrderAPI(data) {
   return axios.post('/order', data);
@@ -63,6 +33,5 @@ function* watchUserOrder() {
 export default function* postSaga() {
   yield all([
     fork(watchUserOrder),
-    fork(watchShopGetOrder),
   ]);
 }

@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState} from 'react';
 import { ControlOutlined } from '@ant-design/icons';
 import { END } from '@redux-saga/core';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { GetServerSideProps } from 'next';
-import { LOAD_SHOP_REQUEST } from '../../reducers/shop';
+import { LOAD_SHOP_REQUEST, SHOP_LENGTH_REQUEST } from '../../reducers/shop';
 import { LOAD_USER_REQUEST } from '../../reducers/user';
 import wrapper from '../../store/configureStore';
 import PickMenu from '../../components/userPick';
@@ -14,8 +14,8 @@ import { singleShopCss } from '../../css/singleShop';
 export const menuPart1 = [{ part: 'main' }, { part: 'sub' }, { part: 'drink' }];// menu수정할수있게 todo
 
 const Shop = () => {
-  const { single1Shop, menus, menuPart } = useSelector((state) => state.shop);
-  const { me, testData } = useSelector((state) => state.user);
+  const { single1Shop } = useSelector((state:any) => state.shop);
+  const { me, testData } = useSelector((state:any) => state.user);
   const [loading, setLoading] = useState(false);
   const [master, setMaster] = useState(false);
   const [seeN, setSeeN] = useState('123');
@@ -47,18 +47,17 @@ const Shop = () => {
       alert('취소되었습니다.');
     }
   }, []);
+  const openTable = useCallback((part) => {
+    document.getElementById(`rmt-${seeN}`).style.display = 'none';
+    setSeeN(part);
+    document.getElementById(`rmt-${part}`).style.display = 'block';
+  }, [seeN]);
 
   useEffect(() => {
     if (me) {
       document.getElementById('admin-logout').style.display = 'none';
     }
   }, [me]);
-
-  const openTable = useCallback((part) => {
-    document.getElementById(`rmt-${seeN}`).style.display = 'none';
-    setSeeN(part);
-    document.getElementById(`rmt-${part}`).style.display = 'block';
-  }, [seeN]);
 
   return (
     <>
@@ -93,7 +92,7 @@ export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps
   });
   context.store.dispatch({
     type: LOAD_SHOP_REQUEST,
-    data: context.params.shopId,
+    data: { shopId: context.params.shopId, lastId: 0 },
   });
   context.store.dispatch(END);
   await context.store.sagaTask.toPromise();

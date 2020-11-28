@@ -50,7 +50,7 @@ function shopLoginAPI(loginData) {
   return axios.post('/user/slogin', loginData);
 }
 
-function* ShoplogIn(action) {
+function* shopLogIn(action) {
   try {
     const result = yield call(shopLoginAPI, action.data);
     yield put({
@@ -67,7 +67,7 @@ function* ShoplogIn(action) {
 }
 
 function* watchShopLogIn() {
-  yield takeEvery(LOG_IN_SHOP_REQUEST, ShoplogIn);
+  yield takeEvery(LOG_IN_SHOP_REQUEST, shopLogIn);
 }
 
 function signUpAPI(signUpData) {
